@@ -44,7 +44,7 @@ namespace DatingApp.API.Services
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
 
-            // 3. сохранить пользователя в базу
+            // 2. сохранить пользователя в базу
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
