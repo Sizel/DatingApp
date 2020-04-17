@@ -38,13 +38,7 @@ namespace DatingApp.API.Services
         // TO-DO: Написать тесты для этого метода
         public async Task<User> Register(User user, string password)
         {
-            // 0. проверить правильность данных
-
-            // 1. проверить если пользователь с таким именем уже существует
-            if (await UserExists(user.Name))
-                return null;
-
-            // 2. сгенерировать хеш и соль для пароля
+            // 1. сгенерировать хеш и соль для пароля
             byte[] passwordHash, passwordSalt;
             GenerateHash(password, out passwordHash, out passwordSalt);
             user.PasswordHash = passwordHash;
@@ -64,6 +58,7 @@ namespace DatingApp.API.Services
                 passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
             }
         }
+
 
         public async Task<bool> UserExists(string username)
         {
