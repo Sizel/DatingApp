@@ -3,3 +3,5 @@
 datingapp.db*
 obj
 bin
+appsettings.json
+appsettings.Development.json

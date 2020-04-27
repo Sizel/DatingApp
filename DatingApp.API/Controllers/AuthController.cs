@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
@@ -8,45 +9,41 @@ namespace DatingApp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController: ControllerBase
     {
-        private IAuthService _auth;
-        private ITokenService _tokenService;
+        readonly private IAuthService _authService;
+        readonly private ITokenService _tokenService;
 
         public AuthController(IAuthService auth, ITokenService tokenService)
         {
-            _auth = auth;
+            _authService = auth;
             _tokenService = tokenService;
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(UserForRegisterDTO userDto)
+        public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDto)
         {
-            userDto.Name = userDto.Name.ToLower();
-
-            if (await _auth.UserExists(userDto.Name))
-                return BadRequest("Username already taken");
-
-            User userModel = new User {
-                Name = userDto.Name
-            };
-
-            if (await _auth.Register(userModel, userDto.Password) != null)
+            try
+            {
+                await _authService.Register(userForRegisterDto);
                 return StatusCode(201);
-            else
-                return BadRequest();
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
         [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDTO userDto) 
+        public async Task<IActionResult> Login(UserForLoginDTO userForLoginDto) 
         {
-            var user = await _auth.Login(userDto.Name.ToLower(), userDto.Password);
+            var user = await _authService.Login(userForLoginDto);
 
             if (user == null)
                 return Unauthorized();
 
             var token = _tokenService.CreateJwtToken(user, 7);
 
-            return Ok(new {token = token});
+            return Ok(token);
         }
     }
 }

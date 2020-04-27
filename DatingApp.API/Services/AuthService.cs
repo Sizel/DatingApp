@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
+using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,14 +15,15 @@ namespace DatingApp.API.Services
         {
             _context = context;
         }
-       public async Task<User> Login(string username, string password)
+
+       public async Task<User> Login(UserForLoginDTO userForLoginDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Name == username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Name == userForLoginDto.Name.ToLower());
 
             if (user == null)
                 return null;
 
-            if (!VerifyPassword(user.PasswordHash, user.PasswordSalt, password))
+            if (!VerifyPassword(user.PasswordHash, user.PasswordSalt, userForLoginDto.Password))
                 return null;
 
             return user;
@@ -36,19 +38,29 @@ namespace DatingApp.API.Services
             }
         }
         // TO-DO: Написать тесты для этого метода
-        public async Task<User> Register(User user, string password)
+        public async Task<User> Register(UserForRegisterDTO userDto)
         {
+            var userModel = new User
+            {
+                Name = userDto.Name.ToLower()
+            };
+
+            if (await UserExists(userModel.Name))
+            {
+                throw new ArgumentException("Username with this name already exists");
+            }
+
             // 1. сгенерировать хеш и соль для пароля
             byte[] passwordHash, passwordSalt;
-            GenerateHash(password, out passwordHash, out passwordSalt);
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            GenerateHash(userDto.Password, out passwordHash, out passwordSalt);
+            userModel.PasswordHash = passwordHash;
+            userModel.PasswordSalt = passwordSalt;
 
             // 2. сохранить пользователя в базу
-            await _context.Users.AddAsync(user);
+            await _context.Users.AddAsync(userModel);
             await _context.SaveChangesAsync();
 
-            return user;
+            return userModel;
         }
 
         private void GenerateHash(string password, out byte[] passwordHash, out byte[] passwordSalt) {
@@ -59,8 +71,7 @@ namespace DatingApp.API.Services
             }
         }
 
-
-        public async Task<bool> UserExists(string username)
+        private async Task<bool> UserExists(string username)
         {
             var isExisting = await _context.Users.AnyAsync(u => u.Name == username);
             return isExisting;
