@@ -37,7 +37,6 @@ namespace DatingApp.API.Services
                 return isHashEqual;
             }
         }
-        // TO-DO: Написать тесты для этого метода
         public async Task<User> Register(UserForRegisterDTO userDto)
         {
             var userModel = new User
