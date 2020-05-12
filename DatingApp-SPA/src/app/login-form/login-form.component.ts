@@ -1,3 +1,4 @@
+import { AlertService } from './../services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
@@ -9,18 +10,17 @@ import { AuthService } from '../services/auth.service';
 export class LoginFormComponent implements OnInit {
   loginModel: any = {};
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private alertify: AlertService) { }
 
   ngOnInit() {
   }
 
   login() {
     this.auth.login(this.loginModel).subscribe(next => {
-      console.log('Logged in');
-    }
-    ), error => {
-      console.error('Failed to log in');
-    }
+      this.alertify.success('You are logged in!');
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 
 

@@ -1,3 +1,5 @@
+import { ErrorInterceptorProvider } from './ErrorInterceptor';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -10,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
    declarations: [
@@ -23,10 +26,12 @@ import { RegisterFormComponent } from './register-form/register-form.component';
       BrowserModule,
       HttpClientModule,
       FormsModule,
-      HttpClientModule
+      HttpClientModule,
+      NgbModule,
    ],
    providers: [
-      AuthService
+      AuthService,
+      ErrorInterceptorProvider,
    ],
    bootstrap: [
       AppComponent

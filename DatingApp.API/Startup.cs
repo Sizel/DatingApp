@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using DatingApp.API.Data;
 using DatingApp.API.Services;
+using DatingApp.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,9 +40,6 @@ namespace DatingApp.API
 			services.AddCors();
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<ITokenService, TokenService>();
-			services.AddSwaggerGen(options => 
-				options.SwaggerDoc("myApi", new OpenApiInfo { Title = "myApi", Description = "test description" })
-			);
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{
@@ -60,13 +61,26 @@ namespace DatingApp.API
 			{
 				app.UseDeveloperExceptionPage();
 			}
+			else
+			{
+				app.UseExceptionHandler(builder =>
+				{
+					builder.Run(async context =>
+					{
+						context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+						var exceptionHandlingFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+						if (exceptionHandlingFeature != null)
+						{
+							context.Response.AddApplicationError(exceptionHandlingFeature.Error.Message);
+							await context.Response.WriteAsync(exceptionHandlingFeature.Error.Message);
+						}
+					});
+				});
+			}
 
 			//app.UseHttpsRedirection();
-			app.UseSwagger();
-
-			app.UseSwaggerUI(options =>
-				options.SwaggerEndpoint("/swagger/swagger.json", "My api  v1")
-			);
 
 			app.UseRouting();
 

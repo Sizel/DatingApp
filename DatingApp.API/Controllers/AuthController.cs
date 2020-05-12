@@ -23,16 +23,17 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDto)
         {
-            try
-            {
+            //try
+            //{
                 await _authService.Register(userForRegisterDto);
                 return StatusCode(201);
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
+            //}
+            //catch (ArgumentException e)
+            //{
+                //return BadRequest(e.Message);
+            //}
         }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDto) 
         {

@@ -1,6 +1,6 @@
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AlertService } from '../services/alert.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,8 +8,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-
-  constructor(private auth: AuthService) { }
+  constructor(public auth: AuthService, private alertify: AlertService) { }
 
   ngOnInit() {
   }
@@ -20,6 +19,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.auth.logout();
+    this.alertify.message('You are logged out');
   }
 
 }
