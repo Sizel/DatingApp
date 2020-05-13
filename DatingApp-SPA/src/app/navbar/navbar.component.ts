@@ -1,6 +1,7 @@
 import { AuthService } from './../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { AlertService } from '../services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +9,7 @@ import { AlertService } from '../services/alert.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  constructor(public auth: AuthService, private alertify: AlertService) { }
+  constructor(public auth: AuthService, private alertify: AlertService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -19,7 +20,7 @@ export class NavbarComponent implements OnInit {
 
   logout() {
     this.auth.logout();
-    this.alertify.message('You are logged out');
+    this.router.navigate(['/home']);
   }
 
 }
