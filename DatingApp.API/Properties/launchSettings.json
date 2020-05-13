@@ -1,3 +1,4 @@
+
 {
   "iisSettings": {
     "windowsAuthentication": false,
@@ -21,7 +22,7 @@
       "commandName": "Project",
       "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Production"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "nativeDebugging": true,
       "applicationUrl": "http://localhost:5000"

@@ -19,8 +19,8 @@ namespace DatingApp.API.Services
 
         public Task<string> CreateJwtToken(User user, int daysValid) {
             ClaimsIdentity claims = new ClaimsIdentity();
-            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
-            claims.AddClaim(new Claim(ClaimTypes.Name, user.Name));
+            claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()));
+            claims.AddClaim(new Claim(ClaimTypes.Name, user.Username));
 
             SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor();
             tokenDescriptor.Subject = claims;
