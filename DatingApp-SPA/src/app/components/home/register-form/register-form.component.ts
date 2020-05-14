@@ -1,5 +1,5 @@
-import { AlertService } from './../services/alert.service';
-import { AuthService } from './../services/auth.service';
+import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 

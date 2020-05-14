@@ -16,11 +16,11 @@ namespace DatingApp.Data
 				.ForMember(destDto => destDto.Age, options =>
 					options.MapFrom(user => DateTime.Now.Year - user.DateOfBirth.Year));
 
-			CreateMap<User, DetailedUserDTO>().ForMember
-			(
-				destDto => destDto.MainPhotoUrl,
-				options => options.MapFrom(user => user.Photos.FirstOrDefault(p => p.IsMain).Url)
-			);
+			CreateMap<User, DetailedUserDTO>()
+				.ForMember(destDto => destDto.MainPhotoUrl,
+					options => options.MapFrom(user => user.Photos.FirstOrDefault(p => p.IsMain).Url))
+				.ForMember(destDto => destDto.Age, options =>
+					options.MapFrom(user => DateTime.Now.Year - user.DateOfBirth.Year));
 		}
 	}
 }

@@ -1,0 +1,59 @@
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{user.mainPhotoUrl}}" alt="{{user.username}}">
+        <div class="card-body">
+          <div>
+            <strong>Location: </strong>
+            <p>{{user.city}}, {{user.country}}</p>
+          </div>
+          <div>
+            <strong>Age: </strong>
+            <p>{{user.age}}</p>
+          </div>
+          <div>
+            <strong>Last active: </strong>
+            <p>{{user.lastActive}}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div>
+            <div class="btn-group d-flex">
+              <button class="btn btn-primary">Like</button>
+              <button class="btn btn-success">Message</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>About</a>
+            <ng-template ngbNavContent>
+              <h4>About me</h4>
+              <p>{{user.userDescription.description}}</p>
+              <h4>My interests</h4>
+              <p>{{user.userDescription.interests}}</p>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>Photos</a>
+            <ng-template ngbNavContent>
+              <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3">
+            <a ngbNavLink>Messages</a>
+            <ng-template ngbNavContent>
+              messages will be here
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>

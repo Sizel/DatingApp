@@ -1,11 +1,13 @@
+import { MemberDetailResolver } from './resolvers/member-detail.resolver';
 import { RegistrationGuard } from './guards/registration.guard';
 import { AuthGuard } from './guards/auth.guard';
-import { NoSuchPageComponent } from './no-such-page/no-such-page.component';
-import { LikesComponent } from './likes/likes.component';
-import { MessagesComponent } from './messages/messages.component';
-import { MembersComponent } from './members/members.component';
-import { HomeComponent } from './home/home.component';
+import { NoSuchPageComponent } from './components/no-such-page/no-such-page.component';
+import { LikesComponent } from './components/likes/likes.component';
+import { MessagesComponent } from './components/messages/messages.component';
+import { MembersComponent } from './components/members/members-list/members.component';
+import { HomeComponent } from './components/home/home.component';
 import { Routes } from '@angular/router';
+import { MemberDetailedComponent } from './components/members/member-detailed/member-detailed.component';
 
 export const appRoutes: Routes = [
   {
@@ -25,6 +27,13 @@ export const appRoutes: Routes = [
       {
         path: 'members',
         component: MembersComponent,
+      },
+      {
+        path: 'members/:id',
+        component: MemberDetailedComponent,
+        resolve: {
+          user: MemberDetailResolver
+        }
       },
       {
         path: 'messages',

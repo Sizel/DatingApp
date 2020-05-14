@@ -13,6 +13,7 @@ namespace DatingApp.Data.DTOs
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
         public string City { get; set; }
+        public int Age { get; set; }
         public string Country { get; set; }
         public string MainPhotoUrl { get; set; }
         public ICollection<Photo> Photos { get; set; }
