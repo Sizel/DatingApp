@@ -1,3 +1,4 @@
+import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberDetailResolver } from './resolvers/member-detail.resolver';
 import { RegistrationGuard } from './guards/registration.guard';
 import { AuthGuard } from './guards/auth.guard';
@@ -8,6 +9,8 @@ import { MembersComponent } from './components/members/members-list/members.comp
 import { HomeComponent } from './components/home/home.component';
 import { Routes } from '@angular/router';
 import { MemberDetailedComponent } from './components/members/member-detailed/member-detailed.component';
+import { MemberEditResolver } from './resolvers/member-edit.resolver';
+import { UnsavedChangesEditGuard } from './guards/unsaved-changes-edit.guard';
 
 export const appRoutes: Routes = [
   {
@@ -32,7 +35,15 @@ export const appRoutes: Routes = [
         path: 'members/:id',
         component: MemberDetailedComponent,
         resolve: {
-          user: MemberDetailResolver
+          detailedUser: MemberDetailResolver
+        }
+      },
+      {
+        path: 'member/edit',
+        component: MemberEditComponent,
+        canDeactivate: [UnsavedChangesEditGuard],
+        resolve: {
+          userForEdit: MemberEditResolver
         }
       },
       {

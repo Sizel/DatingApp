@@ -1,9 +1,11 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
+using DatingApp.Data.DTOs;
 using DatingApp.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,14 +14,17 @@ namespace DatingApp.API.Services
     public class AuthService : IAuthService
     {
         DataContext _context;
-        public AuthService(DataContext context)
+        IMapper _mapper;
+
+        public AuthService(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
        public async Task<User> Login(UserForLoginDTO userForLoginDto)
         {
-            var user = await _context.Users.Include(u => u.Password).FirstOrDefaultAsync(u => u.Username == userForLoginDto.Name.ToLower());
+            var user = await _context.Users.Include(u => u.Password).FirstOrDefaultAsync(u => u.Username == userForLoginDto.Username.ToLower());
 
             if (user == null)
                 return null;
@@ -38,12 +43,11 @@ namespace DatingApp.API.Services
                 return isHashEqual;
             }
         }
-        public async Task<User> Register(UserForRegisterDTO userDto)
+        public async Task<DetailedUserDTO> Register(UserForRegisterDTO userDto)
         {
-            var userModel = new User
-            {
-                Username = userDto.Name.ToLower()
-            };
+            // 0. Создать модель для сохранения в базу
+            var userModel = _mapper.Map<User>(userDto);
+            userModel.Username = userModel.Username.ToLower();
 
             if (await UserExists(userModel.Username))
             {
@@ -53,7 +57,6 @@ namespace DatingApp.API.Services
             // 1. сгенерировать хеш и соль для пароля
             byte[] passwordHash, passwordSalt;
             GenerateHashAndSalt(userDto.Password, out passwordHash, out passwordSalt);
-
             userModel.Password = new Password();
             userModel.Password.PasswordHash = passwordHash;
             userModel.Password.PasswordSalt = passwordSalt;
@@ -62,7 +65,9 @@ namespace DatingApp.API.Services
             await _context.Users.AddAsync(userModel);
             await _context.SaveChangesAsync();
 
-            return userModel;
+            // 3. Вернуть Dto с полным описанием
+            var detailedUserDto = _mapper.Map<DetailedUserDTO>(userModel);
+            return detailedUserDto;
         }
 
         private void GenerateHashAndSalt(string password, out byte[] passwordHash, out byte[] passwordSalt) {

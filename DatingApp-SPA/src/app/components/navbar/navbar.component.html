@@ -22,7 +22,7 @@
         Welcome, {{ auth.decodedToken.unique_name | titlecase }}
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem>
+        <button ngbDropdownItem [routerLink]="['/member/edit']  ">
           <i style="padding-right: 0.5rem" class="fas fa-user-edit"></i>
           Edit profile
         </button>

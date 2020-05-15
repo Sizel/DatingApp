@@ -31,6 +31,13 @@ namespace DatingApp.Data
 			return usersForList;
 		}
 
+		public async Task<User> GetUserWithDescr(int id)
+		{
+			var userWithDescr = await Context.Users
+											.Include(u => u.UserDescription)
+											.FirstOrDefaultAsync(u => u.UserId == id);
 
+			return userWithDescr;
+		}
 	}
 }

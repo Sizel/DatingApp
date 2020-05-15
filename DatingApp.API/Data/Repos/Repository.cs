@@ -36,7 +36,7 @@ namespace DatingApp.Data
 			Context.Set<TEntity>().Remove(entity);
 		}
 
-		public async Task<bool> Complete()
+		public async Task<bool> SaveAll()
 		{
 			return await Context.SaveChangesAsync() > 0;
 		}

@@ -12,7 +12,7 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
   styleUrls: ['./member-detailed.component.css']
 })
 export class MemberDetailedComponent implements OnInit {
-  user: User;
+  detailedUser: User;
 
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
@@ -20,9 +20,9 @@ export class MemberDetailedComponent implements OnInit {
   constructor(private userService: UserService, private alertify: AlertService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.data.subscribe(user => {
-      if (user) {
-        this.user = user.user;
+    this.route.data.subscribe(data => {
+      if (data) {
+        this.detailedUser = data.detailedUser;
         this.galleryImages = this.getImages();
       }
     });
@@ -43,7 +43,7 @@ export class MemberDetailedComponent implements OnInit {
   getImages() {
     const images = [];
 
-    for (const photo of this.user.photos) {
+    for (const photo of this.detailedUser.photos) {
       images.push({
         small: photo.url,
         medium: photo.url,

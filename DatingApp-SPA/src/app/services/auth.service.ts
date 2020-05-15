@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { User } from '../models/user';
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +14,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) { }
 
-  login(user: any) {
+  login(user: User) {
     return this.http.post(this.baseUrl + 'login', user).pipe(
       map((response: any) => {
         if (response) {
@@ -33,7 +34,7 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
-  register(user: any) {
+  register(user: User) {
     return this.http.post(this.baseUrl + 'register', user);
   }
 }

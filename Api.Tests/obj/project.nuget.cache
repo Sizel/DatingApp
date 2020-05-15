@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rOueQGAgvF2XkYWk2vGp6nlCD5TP0zO7pqBFv+nvYe4dAd76htFXF9eBPUGGX9sfYM2dn0jvelFnsjM4FqUKXQ==",
+  "dgSpecHash": "QVb3Tp0TYXiMdRRNPFkwawRbhf+GL81mw6wpGAVvEUeS6RmYuaHEkLBP7FJJ/CYJ3lTduVgzQzQ+3mE+3iKPuw==",
   "success": true,
-  "projectFilePath": "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
+  "projectFilePath": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MAX\\.nuget\\packages\\autofac\\5.1.1\\autofac.5.1.1.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\autofac.extras.moq\\5.0.1\\autofac.extras.moq.5.0.1.nupkg.sha512",

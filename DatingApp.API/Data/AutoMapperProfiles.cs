@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
+using DatingApp.Data.Models;
 using System;
 using System.Linq;
 
@@ -21,6 +23,26 @@ namespace DatingApp.Data
 					options => options.MapFrom(user => user.Photos.FirstOrDefault(p => p.IsMain).Url))
 				.ForMember(destDto => destDto.Age, options =>
 					options.MapFrom(user => DateTime.Now.Year - user.DateOfBirth.Year));
+
+			CreateMap<UserForUpdateDTO, User>()
+				.ForPath<UserDescription>(destUser => destUser.UserDescription, options =>
+					options.MapFrom(srcDto => srcDto.UserDescription));
+
+			CreateMap<UserDescriptionDTO, UserDescription>()
+				.ForMember(descr => descr.Description,
+					options => options.MapFrom(descrDto => descrDto.Description))
+				.ForMember(descr => descr.Interests,
+					options => options.MapFrom(descrDto => descrDto.Interests));
+
+
+			CreateMap<UserForRegisterDTO, User>()
+				.ForMember(u => u.Password,
+					options => options.Ignore())
+				.ForMember(u => u.Created,
+					options => options.MapFrom(userForRegisterdto => DateTime.Now))
+				.ForMember(u => u.LastActive,
+					options => options.MapFrom(userForRegisterdto => DateTime.Now));
+
 		}
 	}
 }

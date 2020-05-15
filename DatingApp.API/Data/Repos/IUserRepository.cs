@@ -10,5 +10,6 @@ namespace DatingApp.Data.Repos
 	{
 		public Task<User> GetDetailedUser(int id);
 		public Task<List<User>> GetUsersForList();
+		public Task<User> GetUserWithDescr(int id);
 	}
 }

@@ -1,0 +1,89 @@
+<div class="container my-4">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img
+          class="card-img-top img-thumbnail"
+          src="{{
+            userForEdit.mainPhotoUrl || '../../../../../../assets/userpic.png'
+          }}"
+          alt="{{ userForEdit.username }}"
+        />
+        <div class="card-body">
+          <div>
+            <strong>Location: </strong>
+            <p>{{ userForEdit.city }}, {{ userForEdit.country }}</p>
+          </div>
+          <div>
+            <strong>Age: </strong>
+            <p>{{ userForEdit.age }}</p>
+          </div>
+          <div>
+            <strong>Last active: </strong>
+            <p>{{ userForEdit.lastActive | timeago: false }}</p>
+          </div>
+          <div>
+            <strong>Member since: </strong>
+            <p>{{ userForEdit.created | date: "mediumDate" }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-8">
+      <div class="tab-panel">
+        <ul ngbNav #nav="ngbNav" class="nav-tabs">
+          <li [ngbNavItem]="1">
+            <a ngbNavLink>Edit profile</a>
+            <ng-template ngbNavContent>
+              <form #editForm="ngForm" (ngSubmit)="updateUser()">
+                <h4>About me</h4>
+                <textarea
+                  class="form-control"
+                  name="description"
+                  cols="30"
+                  rows="6"
+                  [ngModel]="userForEdit.userDescription?.description"
+                ></textarea>
+                <h4>My interests</h4>
+                <textarea
+                  class="form-control"
+                  name="interests"
+                  cols="30"
+                  rows="6"
+                  [ngModel]="userForEdit.userDescription.interests"
+                ></textarea>
+                <h4>Location</h4>
+                <div class="location">
+                  <label for="city">City</label>
+                  <input
+                    class="form-control"
+                    size="30"
+                    type="text"
+                    name="city"
+                    [(ngModel)]="userForEdit.city"
+                  />
+                  <label for="city">Country</label>
+                  <input
+                    class="form-control"
+                    size="30"
+                    type="text"
+                    name="country"
+                    [(ngModel)]="userForEdit.country"
+                  />
+                </div>
+                <button *ngIf="!editForm.pristine" class="btn btn-success mt-3">
+                  Save changes
+                </button>
+              </form>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <a ngbNavLink>Edit photos</a>
+            <ng-template ngbNavContent> </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </div>
+</div>

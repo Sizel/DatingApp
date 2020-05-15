@@ -23,8 +23,9 @@ namespace DatingApp.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(UserForRegisterDTO userForRegisterDto)
         {
-            await _authService.Register(userForRegisterDto);
-            return StatusCode(201);
+            var detailedUser = await _authService.Register(userForRegisterDto);
+
+            return CreatedAtRoute("GetDetailedUser", new { controller = "Users", id = detailedUser.UserId }, detailedUser);
         }
 
         [HttpPost("login")]
@@ -35,7 +36,8 @@ namespace DatingApp.API.Controllers
             if (user == null)
                 return Unauthorized();
 
-            var token = _tokenService.CreateJwtToken(user, 7);
+            const int daysValid = 7;
+            var token = _tokenService.CreateJwtToken(user, daysValid);
 
             return Ok(token);
         }

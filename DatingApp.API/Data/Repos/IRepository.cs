@@ -11,5 +11,6 @@ namespace DatingApp.Data
 		Task<IEnumerable<TEntity>> GetAll();
 		void Add(TEntity entity);
 		void Remove(TEntity entity);
+		public Task<bool> SaveAll();
 	}
 }

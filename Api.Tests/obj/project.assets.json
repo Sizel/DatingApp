@@ -9750,11 +9750,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
+      "projectUniqueName": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
       "projectName": "Api.Tests",
-      "projectPath": "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
+      "projectPath": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
       "packagesPath": "C:\\Users\\MAX\\.nuget\\packages\\",
-      "outputPath": "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\Api.Tests\\obj\\",
+      "outputPath": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\Api.Tests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -9773,8 +9773,8 @@
       "frameworks": {
         "netcoreapp3.1": {
           "projectReferences": {
-            "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\DatingApp.API\\DatingApp.csproj": {
-              "projectPath": "G:\\prog\\projects\\.NET_Angular_App_Udemy\\DatingApp\\DatingApp\\DatingApp.API\\DatingApp.csproj"
+            "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\DatingApp.API\\DatingApp.csproj": {
+              "projectPath": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\DatingApp.API\\DatingApp.csproj"
             }
           }
         }
