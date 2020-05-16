@@ -1,8 +1,10 @@
 using System;
 using System.Threading.Tasks;
+using AutoMapper;
 using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
 using DatingApp.API.Services;
+using DatingApp.Data.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.API.Controllers
@@ -13,11 +15,13 @@ namespace DatingApp.API.Controllers
     {
         readonly private IAuthService _authService;
         readonly private ITokenService _tokenService;
+        readonly private IMapper _mapper;
 
-        public AuthController(IAuthService auth, ITokenService tokenService)
+        public AuthController(IAuthService auth, ITokenService tokenService, IMapper mapper)
         {
             _authService = auth;
             _tokenService = tokenService;
+            _mapper = mapper;
         }
 
         [HttpPost("register")]
@@ -31,15 +35,21 @@ namespace DatingApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserForLoginDTO userForLoginDto) 
         {
-            var user = await _authService.Login(userForLoginDto);
+            var loggedInUser = await _authService.Login(userForLoginDto);
 
-            if (user == null)
+            if (loggedInUser == null)
                 return Unauthorized();
 
             const int daysValid = 7;
-            var token = _tokenService.CreateJwtToken(user, daysValid);
+            var token = _tokenService.CreateJwtToken(loggedInUser, daysValid);
 
-            return Ok(token);
+            var userDto = _mapper.Map<UserForListDTO>(loggedInUser);
+
+            return Ok(new
+            {
+                token,
+                user = userDto
+            });
         }
     }
 }

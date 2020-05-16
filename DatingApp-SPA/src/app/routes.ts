@@ -1,3 +1,4 @@
+import { MemberListResolver } from './resolvers/member-list.resolver';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberDetailResolver } from './resolvers/member-detail.resolver';
 import { RegistrationGuard } from './guards/registration.guard';
@@ -30,6 +31,9 @@ export const appRoutes: Routes = [
       {
         path: 'members',
         component: MembersComponent,
+        resolve: {
+          page: MemberListResolver
+        }
       },
       {
         path: 'members/:id',

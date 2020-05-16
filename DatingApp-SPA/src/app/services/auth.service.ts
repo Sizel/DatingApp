@@ -18,8 +18,10 @@ export class AuthService {
     return this.http.post(this.baseUrl + 'login', user).pipe(
       map((response: any) => {
         if (response) {
-          localStorage.setItem('token', response.result);
-          this.decodedToken = this.jwtHelper.decodeToken(response.result);
+          const token = response.token.result;
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(response.user));
+          this.decodedToken = this.jwtHelper.decodeToken(token);
         }
       })
     );

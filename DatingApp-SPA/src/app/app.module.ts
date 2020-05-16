@@ -29,6 +29,7 @@ import { NoSuchPageComponent } from './components/no-such-page/no-such-page.comp
 import { MemberCardComponent } from './components/members/member-card/member-card/member-card.component';
 import { MemberDetailedComponent } from './components/members/member-detailed/member-detailed.component';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
+import { MemberListResolver } from './resolvers/member-list.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -74,6 +75,7 @@ export function tokenGetter() {
       ErrorInterceptorProvider,
       MemberDetailResolver,
       MemberEditResolver,
+      MemberListResolver,
    ],
    bootstrap: [
       AppComponent

@@ -1,8 +1,10 @@
 ﻿using DatingApp.API.Data;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.Models;
+using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +26,20 @@ namespace DatingApp.Data
 			return detailedUser;
 		}
 
-		public async Task<List<User>> GetUsersForList()
-		{
-			var usersForList = await Context.Users.Include(u => u.Photos).ToListAsync<User>();
+		//public async Task<PageList<User>> GetUsersPage(PaginationParams paginationParams)
+		//{
+		//	var users = Context.Users.Include(u => u.Photos);
 
-			return usersForList;
+		//	var page = PageList<User>.GetPage(users, paginationParams.PageNumber, paginationParams.PageSize);
+
+		//	return await page;
+		//}
+
+		public IQueryable<User> GetUsers()
+		{
+			var users = Context.Users.Include(u => u.Photos).AsQueryable();
+
+			return users;
 		}
 
 		public async Task<User> GetUserWithDescr(int id)

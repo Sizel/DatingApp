@@ -1,4 +1,7 @@
 ﻿using DatingApp.API.Data.Models;
+using DatingApp.Data.Models;
+using DatingApp.Data.Pagination;
+using Microsoft.EntityFrameworkCore.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +12,7 @@ namespace DatingApp.Data.Repos
 	public interface IUserRepository : IRepository<User>
 	{
 		public Task<User> GetDetailedUser(int id);
-		public Task<List<User>> GetUsersForList();
+		public IQueryable<User> GetUsers();
 		public Task<User> GetUserWithDescr(int id);
 	}
 }

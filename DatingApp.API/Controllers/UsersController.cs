@@ -2,7 +2,9 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
+using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -26,11 +28,22 @@ namespace DatingApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersForList()
+        public async Task<IActionResult> GetUsersPage([FromQuery]PaginationParams paginationParams)
         {
-            var users = await _userRepo.GetUsersForList();
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userWhoMakeRequest = await _userRepo.Get(userId);
 
-            var userForList = _mapper.Map<IEnumerable<UserForListDTO>>(users);
+            var users =  _userRepo.GetUsers();
+
+            var filteredUsers = Filter.FilterUsers(users, paginationParams, userWhoMakeRequest);
+
+            var filteredAndOrderedUsers = Order.OrderUsers(filteredUsers, paginationParams);
+
+            var page = await PageList<User>.GetPage(filteredAndOrderedUsers, paginationParams.PageNumber, paginationParams.PageSize);
+
+            Response.AddPaginationHeaders(page.TotalItems, page.PageSize, page.TotalPages, page.PageNumber);
+
+            var userForList = _mapper.Map<IEnumerable<UserForListDTO>>(page);
 
             return Ok(userForList);
         }
