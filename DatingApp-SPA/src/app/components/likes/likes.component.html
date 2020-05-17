@@ -1,3 +1,59 @@
-<p>
-  likes works!
-</p>
+<div class="text-center mt-3">
+  <h2>Members - {{userPaginationParams.paginationInfo.totalItems}} found</h2>
+</div>
+
+<div class="container mt-3">
+  <div style="align-items: center;" class="row mb-3">
+    <span style="margin-right: 5px">Show: </span>
+    <div class="btn-group">
+      <button (click)="setLikeParams('likees')" class="btn btn-primary">Who I liked</button>
+      <button (click)="setLikeParams('likers')" class="btn btn-info">Who liked me</button>
+    </div>
+  </div>
+  <div style="align-items: center" class="row mb-3">
+    <span style="margin-right: 5px">Order by: </span>
+    <div class="float-right btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="userPaginationParams.orderBy">
+      <label ngbButtonLabel class="btn-primary">
+        <input ngbButton type="radio" value="created" > Created
+      </label>
+      <label ngbButtonLabel class="btn-success">
+        <input ngbButton type="radio" value="lastActive"> Last Active
+      </label>
+    </div>
+  </div>
+  <div class="row">
+    <form class="form-inline" novalidate>
+      <div class="form-group">
+        <label for="minAge">Age From</label>
+        <input [(ngModel)]="userPaginationParams.minAge" type="number" class="form-control ml-1" style="width: 70px" id="minAge" name="minAge">
+      </div>
+    
+      <div class="form-group px-2">
+        <label for="maxAge">Age To</label>
+        <input [(ngModel)]="userPaginationParams.maxAge" type="number" class="form-control ml-1" style="width: 70px" id="maxAge" name="maxAge">
+      </div>
+    
+      <div class="form-group px-2">
+        <label for="gender">Show: </label>
+        <select [(ngModel)]="userPaginationParams.gender" class="form-control ml-1" style="width: 130px" id="gender" name="gender">
+          <option *ngFor="let gender of genders" [selected]="gender.value === 'both'" [value]="gender.value">
+            {{ gender.display }}
+          </option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary" style="margin-left:10px" (click)="loadNextPage()">Apply Filters</button>
+      <button type="button" class="btn btn-info" style="margin-left:10px" (click)="resetFilters()">Reset Filter</button>
+    </form>
+  </div>
+  
+  <br>
+
+  <div class="row">
+    <div *ngFor="let user of users" class="col-lg-2 col-md-3 col-sm-6">
+      <app-member-card [user]="user"></app-member-card>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <ngb-pagination [boundaryLinks]="true" [pageSize]="userPaginationParams.paginationInfo.pageSize" [collectionSize]="userPaginationParams.paginationInfo.totalItems" [(page)]="userPaginationParams.paginationInfo.pageNumber" (pageChange)="loadNextPage()" aria-label="Default pagination"></ngb-pagination>
+  </div>
+</div>

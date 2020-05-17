@@ -12,6 +12,7 @@ import { Routes } from '@angular/router';
 import { MemberDetailedComponent } from './components/members/member-detailed/member-detailed.component';
 import { MemberEditResolver } from './resolvers/member-edit.resolver';
 import { UnsavedChangesEditGuard } from './guards/unsaved-changes-edit.guard';
+import { UserLikesResolver } from './resolvers/likes.resolver';
 
 export const appRoutes: Routes = [
   {
@@ -57,6 +58,9 @@ export const appRoutes: Routes = [
       {
         path: 'likes',
         component: LikesComponent,
+        resolve: {
+          page: UserLikesResolver
+        }
       },
     ],
   },

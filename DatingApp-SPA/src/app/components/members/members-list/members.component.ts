@@ -4,6 +4,7 @@ import { AlertService } from '../../../services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/user';
 import { UserService } from '../../../services/user.service';
+import { UserPaginationParams } from 'src/app/models/pagination-user-params';
 
 @Component({
   selector: 'app-members',
@@ -14,7 +15,7 @@ export class MembersComponent implements OnInit {
   users: User[];
   user: User;
   genders = [{value: 'female', display: 'Females'}, {value: 'male', display: 'Males'}, {value: 'both', display: 'Both'}, ];
-  paginationParams: PaginationParams = { paginationInfo: null };
+  userPaginationParams: UserPaginationParams = { paginationInfo: null };
 
   constructor(
     private userService: UserService,
@@ -25,34 +26,24 @@ export class MembersComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe((data) => {
       this.users = data.page.result;
-      this.paginationParams.paginationInfo = data.page.paginationInfo;
+      this.userPaginationParams.paginationInfo = data.page.paginationInfo;
     });
   }
 
   resetFilters() {
-    this.paginationParams = {
-      paginationInfo: this.paginationParams.paginationInfo
+    this.userPaginationParams = {
+      paginationInfo: this.userPaginationParams.paginationInfo
     };
-    this.loadNextPage();
-    console.log(this.paginationParams);
-  }
-
-  applyFilters() {
-    this.loadNextPage();
-    console.log(this.paginationParams);
-  }
-
-  pageChange() {
     this.loadNextPage();
   }
 
   loadNextPage() {
     this.userService
-      .getUsers(this.paginationParams)
+      .getUsers(this.userPaginationParams)
       .subscribe(
         (page) => {
           this.users = page.result;
-          this.paginationParams.paginationInfo = page.paginationInfo;
+          this.userPaginationParams.paginationInfo = page.paginationInfo;
         },
         (error) => {
           this.alertify.error(error);

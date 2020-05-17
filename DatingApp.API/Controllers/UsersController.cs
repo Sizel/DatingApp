@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
+using DatingApp.Data.Models;
 using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
@@ -19,27 +20,28 @@ namespace DatingApp.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
+        private readonly ILikeRepository _likeRepo;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserRepository userRepo, IMapper mapper)
+        public UsersController(IUserRepository userRepo, ILikeRepository likeRepo, IMapper mapper)
         {
             _userRepo = userRepo;
+            this._likeRepo = likeRepo;
             this._mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUsersPage([FromQuery]PaginationParams paginationParams)
+        public async Task<IActionResult> GetUsersPage([FromQuery]UserPaginationParams userPaginationParams)
         {
-            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var userWhoMakeRequest = await _userRepo.Get(userId);
+            var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
             var users =  _userRepo.GetUsers();
 
-            var filteredUsers = Filter.FilterUsers(users, paginationParams, userWhoMakeRequest);
+            var filteredUsers = await Filter.FilterUsers(users, userPaginationParams, idFromToken, _userRepo);
 
-            var filteredAndOrderedUsers = Order.OrderUsers(filteredUsers, paginationParams);
+            var filteredAndOrderedUsers = Order.OrderUsers(filteredUsers, userPaginationParams);
 
-            var page = await PageList<User>.GetPage(filteredAndOrderedUsers, paginationParams.PageNumber, paginationParams.PageSize);
+            var page = await PageList<User>.GetPage(filteredAndOrderedUsers, userPaginationParams.PageNumber, userPaginationParams.PageSize);
 
             Response.AddPaginationHeaders(page.TotalItems, page.PageSize, page.TotalPages, page.PageNumber);
 
@@ -74,6 +76,37 @@ namespace DatingApp.Controllers
             await _userRepo.SaveAll();
 
             return NoContent();
+        }
+
+        [HttpPost("{likerId}/like/{recipientId}")]
+        public async Task<IActionResult> LikeUser(int likerId, int recipientId)
+        {
+            var idFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (likerId != idFromToken)
+            {
+                return Unauthorized();
+            }
+
+            var like = await _likeRepo.GetLike(idFromToken, recipientId);
+
+            if (like != null)
+            {
+                return BadRequest("You have already liked this user");
+            }
+
+            if (await _userRepo.Get(recipientId) == null)
+            {
+                return BadRequest("No such user");
+            }
+
+            _likeRepo.AddLike(new Like
+            {
+                LikeeId = recipientId,
+                LikerId = idFromToken
+            });
+
+            return Ok();
         }
     }
 }

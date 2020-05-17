@@ -26,20 +26,27 @@ namespace DatingApp.Data
 			return detailedUser;
 		}
 
-		//public async Task<PageList<User>> GetUsersPage(PaginationParams paginationParams)
-		//{
-		//	var users = Context.Users.Include(u => u.Photos);
-
-		//	var page = PageList<User>.GetPage(users, paginationParams.PageNumber, paginationParams.PageSize);
-
-		//	return await page;
-		//}
-
 		public IQueryable<User> GetUsers()
 		{
 			var users = Context.Users.Include(u => u.Photos).AsQueryable();
 
 			return users;
+		}
+
+		public async Task<IEnumerable<int>> GetLikersIds(int userId)
+		{
+			var userWithLikers = await Context.Users.Include(u => u.Likers)
+													.FirstOrDefaultAsync(u => u.UserId == userId);
+
+			return userWithLikers.Likers.Select(l => l.LikerId);
+		}
+
+		public async Task<IEnumerable<int>> GetLikeesIds(int userId)
+		{
+			var userWithLikees = await Context.Users.Include(u => u.Likees)
+													.FirstOrDefaultAsync(u => u.UserId == userId);
+
+			return userWithLikees.Likees.Select(l => l.LikeeId);
 		}
 
 		public async Task<User> GetUserWithDescr(int id)

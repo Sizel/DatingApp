@@ -30,13 +30,16 @@ namespace DatingApp.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddControllers().AddNewtonsoftJson();
+			// глобально игнорируй кольцевые свойства
+			services.AddControllers().AddNewtonsoftJson( o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddCors();
 			services.AddAutoMapper(typeof(IUserRepository).Assembly);
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IUserRepository, UsersRepository>();
+			services.AddScoped<ILikeRepository, LikeRepository>();
+			services.AddScoped<IMessagesRepository, MessageRepository>();
 			services.AddScoped<LogUserActivity>();
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>

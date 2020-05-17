@@ -30,6 +30,7 @@ import { MemberCardComponent } from './components/members/member-card/member-car
 import { MemberDetailedComponent } from './components/members/member-detailed/member-detailed.component';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberListResolver } from './resolvers/member-list.resolver';
+import { UserLikesResolver } from './resolvers/likes.resolver';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -76,6 +77,7 @@ export function tokenGetter() {
       MemberDetailResolver,
       MemberEditResolver,
       MemberListResolver,
+      UserLikesResolver,
    ],
    bootstrap: [
       AppComponent

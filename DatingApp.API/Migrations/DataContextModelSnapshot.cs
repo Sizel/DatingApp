@@ -48,6 +48,54 @@ namespace DatingApp.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("DatingApp.Data.Models.Like", b =>
+                {
+                    b.Property<int>("LikerId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("LikeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("LikerId", "LikeeId");
+
+                    b.HasIndex("LikeeId");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("DatingApp.Data.Models.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateSent")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("DatingApp.Data.Models.Password", b =>
                 {
                     b.Property<int>("PasswordId")
@@ -122,6 +170,36 @@ namespace DatingApp.Migrations
                     b.ToTable("UserDescriptions");
                 });
 
+            modelBuilder.Entity("DatingApp.Data.Models.Like", b =>
+                {
+                    b.HasOne("DatingApp.API.Data.Models.User", "Likee")
+                        .WithMany("Likers")
+                        .HasForeignKey("LikeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DatingApp.API.Data.Models.User", "Liker")
+                        .WithMany("Likees")
+                        .HasForeignKey("LikerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("DatingApp.Data.Models.Message", b =>
+                {
+                    b.HasOne("DatingApp.API.Data.Models.User", "Recipient")
+                        .WithMany("MessagesRecieved")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.HasOne("DatingApp.API.Data.Models.User", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("DatingApp.Data.Models.Password", b =>
                 {
                     b.HasOne("DatingApp.API.Data.Models.User", "User")
@@ -133,7 +211,7 @@ namespace DatingApp.Migrations
 
             modelBuilder.Entity("DatingApp.Data.Models.Photo", b =>
                 {
-                    b.HasOne("DatingApp.API.Data.Models.User", "User")
+                    b.HasOne("DatingApp.API.Data.Models.User", null)
                         .WithMany("Photos")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -142,7 +220,7 @@ namespace DatingApp.Migrations
 
             modelBuilder.Entity("DatingApp.Data.Models.UserDescription", b =>
                 {
-                    b.HasOne("DatingApp.API.Data.Models.User", "User")
+                    b.HasOne("DatingApp.API.Data.Models.User", null)
                         .WithOne("UserDescription")
                         .HasForeignKey("DatingApp.Data.Models.UserDescription", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
