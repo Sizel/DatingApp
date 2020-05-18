@@ -20,9 +20,9 @@ export class MessageService {
     return this.http.post(this.baseUrl + 'users/' + userId + '/messages', message);
   }
 
-  getConversation(userId: number, recipientId: number) {
+  getConversation(requestingUserId: number, requestedUserId: number) {
     return this.http.get<Message[]>(
-      this.baseUrl + 'users/' + userId + '/messages/conv/' + recipientId
+      this.baseUrl + 'users/' + requestingUserId + '/messages/conv/' + requestedUserId
     );
   }
   getMessages(

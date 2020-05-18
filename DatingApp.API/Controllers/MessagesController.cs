@@ -18,7 +18,7 @@ namespace DatingApp.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
-    [Route("api/users/{userId}/[controller]")]
+    [Route("api/users/{requestingUserId}/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
     {
@@ -34,10 +34,10 @@ namespace DatingApp.Controllers
         }
 
         [HttpGet("{messageId}", Name ="GetMessage")]
-        public async Task<IActionResult> GetMessage(int userId, int messageId)
+        public async Task<IActionResult> GetMessage(int requestingUserId, int messageId)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (idFromToken != userId)
+            if (idFromToken != requestingUserId)
             {
                 return Unauthorized();
             }
@@ -53,17 +53,25 @@ namespace DatingApp.Controllers
         }
 
         // bad naming
-        [HttpGet("conv/{recipientId}")]
-        public async Task<IActionResult> GetConversation(int userId, int recipientId)
+        [HttpGet("conv/{requestedUserId}")]
+        public async Task<IActionResult> GetConversation(int requestingUserId, int requestedUserId)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (idFromToken != userId)
+            if (idFromToken != requestingUserId)
             {
                 return Unauthorized();
             }
 
-            var conversation = await messagesRepo.GetConversation(userId, recipientId).ToListAsync();
+            var conversation = await messagesRepo.GetConversation(requestingUserId, requestedUserId).ToListAsync();
+
+            conversation.ForEach(m => {
+                if (!m.IsRead && m.SenderId == requestedUserId)
+                {
+                    m.IsRead = true;
+                    m.DateRead = DateTime.Now;
+                }
+            });
 
             var conversationDto = mapper.Map<IEnumerable<MessageToReturnDto>>(conversation);
 
@@ -71,11 +79,11 @@ namespace DatingApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMessagesPage(int userId, [FromQuery]MessagePaginationParams messageParams)
+        public async Task<IActionResult> GetMessagesPage(int requestingUserId, [FromQuery]MessagePaginationParams messageParams)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
 
-            if (idFromToken != userId)
+            if (idFromToken != requestingUserId)
             {
                 return Unauthorized();
             }
@@ -96,12 +104,12 @@ namespace DatingApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMessage(int userId, MessageForCreationDTO messageForCreationDto)
+        public async Task<IActionResult> CreateMessage(int requestingUserId, MessageForCreationDTO messageForCreationDto)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var sender = await usersRepo.GetUserWithPhotos(idFromToken);
 
-            if (sender.UserId != userId)
+            if (sender.UserId != requestingUserId)
             {
                 return Unauthorized();
             }
@@ -121,7 +129,7 @@ namespace DatingApp.Controllers
 
             await messagesRepo.SaveAll();
 
-            return CreatedAtRoute("GetMessage", new { userId = idFromToken, messageId = messageToAdd.MessageId }, messageToReturn);
+            return CreatedAtRoute("GetMessage", new { requestingUserId = idFromToken, messageId = messageToAdd.MessageId }, messageToReturn);
         }
 
     }
