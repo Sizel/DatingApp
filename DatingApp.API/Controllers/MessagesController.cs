@@ -48,9 +48,11 @@ namespace DatingApp.Controllers
                 return NotFound();
             }
 
-            return Ok(messageFromRepo);
+            var messageToReturn = mapper.Map<MessageToReturnDto>(messageFromRepo);
+            return Ok(messageToReturn);
         }
 
+        // bad naming
         [HttpGet("conv/{recipientId}")]
         public async Task<IActionResult> GetConversation(int userId, int recipientId)
         {
@@ -97,8 +99,9 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> CreateMessage(int userId, MessageForCreationDTO messageForCreationDto)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var sender = await usersRepo.GetUserWithPhotos(idFromToken);
 
-            if (idFromToken != userId)
+            if (sender.UserId != userId)
             {
                 return Unauthorized();
             }
@@ -114,9 +117,11 @@ namespace DatingApp.Controllers
 
             messagesRepo.Add(messageToAdd);
 
+            var messageToReturn = mapper.Map<MessageToReturnDto>(messageToAdd);
+
             await messagesRepo.SaveAll();
 
-            return CreatedAtRoute("GetMessage", new { userId = idFromToken, messageId = messageToAdd.MessageId }, messageToAdd);
+            return CreatedAtRoute("GetMessage", new { userId = idFromToken, messageId = messageToAdd.MessageId }, messageToReturn);
         }
 
     }

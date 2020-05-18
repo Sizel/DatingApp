@@ -1,3 +1,4 @@
+import { MessagesResolver } from './resolvers/messages.resolver';
 import { MemberListResolver } from './resolvers/member-list.resolver';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberDetailResolver } from './resolvers/member-detail.resolver';
@@ -54,6 +55,9 @@ export const appRoutes: Routes = [
       {
         path: 'messages',
         component: MessagesComponent,
+        resolve: {
+          page: MessagesResolver
+        }
       },
       {
         path: 'likes',

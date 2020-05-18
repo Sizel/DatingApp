@@ -14,6 +14,7 @@ namespace DatingApp.Data.Repos
 		public Task<User> GetDetailedUser(int id);
 		public IQueryable<User> GetUsers();
 		public Task<User> GetUserWithDescr(int id);
+		public Task<User> GetUserWithPhotos(int id);
 		public Task<IEnumerable<int>> GetLikersIds(int userId);
 		public Task<IEnumerable<int>> GetLikeesIds(int userId);
 	}

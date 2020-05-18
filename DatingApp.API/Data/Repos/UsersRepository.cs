@@ -25,6 +25,14 @@ namespace DatingApp.Data
 
 			return detailedUser;
 		}
+		public async Task<User> GetUserWithPhotos(int id)
+		{
+			var detailedUser = await Context.Users
+											.Include(u => u.Photos)
+											.FirstOrDefaultAsync(u => u.UserId == id);
+
+			return detailedUser;
+		}
 
 		public IQueryable<User> GetUsers()
 		{

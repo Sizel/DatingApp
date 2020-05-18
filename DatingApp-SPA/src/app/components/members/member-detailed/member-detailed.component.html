@@ -31,7 +31,7 @@
           <div>
             <div class="btn-group d-flex">
               <button class="btn btn-primary">Like</button>
-              <button class="btn btn-success">Message</button>
+              <button class="btn btn-success" (click)="nav.select(3)">Message</button>
             </div>
           </div>
         </div>
@@ -61,7 +61,7 @@
           <li [ngbNavItem]="3">
             <a ngbNavLink>Messages</a>
             <ng-template ngbNavContent>
-              messages will be here
+              <app-member-conversation-window [user]="detailedUser"></app-member-conversation-window>
             </ng-template>
           </li>
         </ul>

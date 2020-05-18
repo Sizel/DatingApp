@@ -1,3 +1,5 @@
+import { MemberConversationWindowComponent } from './components/members/member-detailed/member-conversation-window/member-conversation-window.component';
+import { MessagesResolver } from './resolvers/messages.resolver';
 import { appRoutes } from './routes';
 
 import { BrowserModule } from '@angular/platform-browser';
@@ -50,6 +52,7 @@ export function tokenGetter() {
       MemberCardComponent,
       MemberDetailedComponent,
       MemberEditComponent,
+      MemberConversationWindowComponent
    ],
    imports: [
       BrowserModule,
@@ -78,6 +81,7 @@ export function tokenGetter() {
       MemberEditResolver,
       MemberListResolver,
       UserLikesResolver,
+      MessagesResolver,
    ],
    bootstrap: [
       AppComponent

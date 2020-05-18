@@ -2,9 +2,10 @@ import { Photo } from './../../../models/photo';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from './../../../services/alert.service';
 import { UserService } from './../../../services/user.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery-9';
+import { NgbNav } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-member-detailed',
@@ -13,17 +14,24 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gal
 })
 export class MemberDetailedComponent implements OnInit {
   detailedUser: User;
-
+  @ViewChild('nav', { static: true }) navTabs: NgbNav;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor(private userService: UserService, private alertify: AlertService, private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       if (data) {
         this.detailedUser = data.detailedUser;
         this.galleryImages = this.getImages();
+      }
+    });
+
+    this.route.queryParams.subscribe(params => {
+      const tabId = params.tab;
+      if (tabId) {
+        this.navTabs.select(+tabId);
       }
     });
 

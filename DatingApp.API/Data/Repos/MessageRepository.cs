@@ -14,7 +14,11 @@ namespace DatingApp.Data.Repos
 		public MessageRepository(DataContext context) : base(context) { }
 		public async Task<Message> GetMessage(int messageId)
 		{
-			return await Context.Messages.FirstOrDefaultAsync(m => m.MessageId == messageId);
+			return await Context.Messages.Include(m => m.Sender)
+										 .ThenInclude(s => s.Photos)
+										 .Include(m => m.Recipient)
+										 .ThenInclude(r => r.Photos)
+										 .FirstOrDefaultAsync(m => m.MessageId == messageId);
 		}
 
 		public IQueryable<Message> GetMessagesForUser()

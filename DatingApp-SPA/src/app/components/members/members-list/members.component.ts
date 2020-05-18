@@ -13,7 +13,6 @@ import { UserPaginationParams } from 'src/app/models/pagination-user-params';
 })
 export class MembersComponent implements OnInit {
   users: User[];
-  user: User;
   genders = [{value: 'female', display: 'Females'}, {value: 'male', display: 'Males'}, {value: 'both', display: 'Both'}, ];
   userPaginationParams: UserPaginationParams = { paginationInfo: null };
 

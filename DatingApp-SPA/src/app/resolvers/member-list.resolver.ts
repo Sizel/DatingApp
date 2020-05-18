@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { User } from '../models/user';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
 import { PaginationResult } from '../models/pagination';
 import { UserPaginationParams } from '../models/pagination-user-params';
 
@@ -17,15 +16,18 @@ export class MemberListResolver implements Resolve<PaginationResult<User[]>> {
   userPaginationParams: UserPaginationParams = {
     paginationInfo: {
       pageNumber: this.pageNumber,
-      pageSize: this.pageSize
-    }
+      pageSize: this.pageSize,
+    },
   };
 
-  constructor(private userService: UserService, private auth: AuthService, private router: Router, private alertify: AlertService) {}
+  constructor(
+    private userService: UserService,
+    private alertify: AlertService
+  ) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<PaginationResult<User[]>> {
     return this.userService.getUsers(this.userPaginationParams).pipe(
-      catchError(error => {
+      catchError((error) => {
         this.alertify.error('Problem retrieving data');
         return of(null);
       })
