@@ -22,7 +22,7 @@ export class MemberCardComponent implements OnInit {
 
   sendLike() {
     this.userService
-      .sendLike(this.auth.decodedToken.nameid, this.user.userId)
+      .sendLike(this.auth.decodedToken.nameid, this.user.id)
       .subscribe(
         () => {
           this.alertify.success(

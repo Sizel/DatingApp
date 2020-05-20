@@ -21,7 +21,7 @@ namespace DatingApp.Data
 			var detailedUser = await Context.Users
 											.Include(u => u.Photos)
 											.Include(u => u.UserDescription)
-											.FirstOrDefaultAsync(u => u.UserId == id);
+											.FirstOrDefaultAsync(u => u.Id == id);
 
 			return detailedUser;
 		}
@@ -29,7 +29,7 @@ namespace DatingApp.Data
 		{
 			var detailedUser = await Context.Users
 											.Include(u => u.Photos)
-											.FirstOrDefaultAsync(u => u.UserId == id);
+											.FirstOrDefaultAsync(u => u.Id == id);
 
 			return detailedUser;
 		}
@@ -44,7 +44,7 @@ namespace DatingApp.Data
 		public async Task<IEnumerable<int>> GetLikersIds(int userId)
 		{
 			var userWithLikers = await Context.Users.Include(u => u.Likers)
-													.FirstOrDefaultAsync(u => u.UserId == userId);
+													.FirstOrDefaultAsync(u => u.Id == userId);
 
 			return userWithLikers.Likers.Select(l => l.LikerId);
 		}
@@ -52,7 +52,7 @@ namespace DatingApp.Data
 		public async Task<IEnumerable<int>> GetLikeesIds(int userId)
 		{
 			var userWithLikees = await Context.Users.Include(u => u.Likees)
-													.FirstOrDefaultAsync(u => u.UserId == userId);
+													.FirstOrDefaultAsync(u => u.Id == userId);
 
 			return userWithLikees.Likees.Select(l => l.LikeeId);
 		}
@@ -61,7 +61,7 @@ namespace DatingApp.Data
 		{
 			var userWithDescr = await Context.Users
 											.Include(u => u.UserDescription)
-											.FirstOrDefaultAsync(u => u.UserId == id);
+											.FirstOrDefaultAsync(u => u.Id == id);
 
 			return userWithDescr;
 		}

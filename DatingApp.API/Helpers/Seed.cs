@@ -1,6 +1,7 @@
 ﻿using DatingApp.API.Data;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.Models;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,35 +10,37 @@ namespace DatingApp.Helpers
 {
 	public static class Seed
 	{
-		public static void SeedUsers(DataContext context)
+		public async static void SeedUsers(UserManager<User> userManager, RoleManager<Role> roleManager)
 		{
-			if (!context.Users.Any())
+			if (!userManager.Users.Any())
 			{
 				var userJson = System.IO.File.ReadAllText("Data/UserSeedData.json");
 				var users = JsonConvert.DeserializeObject<List<User>>(userJson);
 
+				var roles = new List<Role>
+				{
+					new Role { Name = "Member" },
+					new Role { Name = "Moderator" },
+					new Role { Name = "Admin" }
+				};
+
+				foreach (var role in roles)
+				{
+					await roleManager.CreateAsync(role);
+				};
+
 				foreach (var user in users)
 				{
-					byte[] passwordHash, passwordSalt;
-					GenerateHashAndSalt("password", out passwordHash, out passwordSalt);
-					user.Password = new Password();
-					user.Password.PasswordHash = passwordHash;
-					user.Password.PasswordSalt = passwordSalt;
-					user.Username = user.Username.ToLower();
-
-					context.Users.Add(user);
+					await userManager.CreateAsync(user, "password");
+					if (user.UserName == "Admin")
+					{
+						await userManager.AddToRolesAsync(user, new[] { "Admin", "Member", "Moderator" });
+					}
+					else
+					{
+						await userManager.AddToRoleAsync(user, "Member");
+					}
 				}
-
-				context.SaveChanges();
-			}
-		}
-
-		private static void GenerateHashAndSalt(string password, out byte[] passwordHash, out byte[] passwordSalt)
-		{
-			using (var hmac = new System.Security.Cryptography.HMACSHA256())
-			{
-				passwordSalt = hmac.Key;
-				passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
 			}
 		}
 	}

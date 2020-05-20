@@ -16,17 +16,17 @@ namespace DatingApp.Data.Pagination
 		{
 			var userWhoMakeRequest = await userRepo.Get(requestingUserId);
 			// Не показывать пользователю самого себя
-			users = users.Where(u => u.UserId != requestingUserId);
+			users = users.Where(u => u.Id != requestingUserId);
 
 			if (paginationParams.Likees)
 			{
 				var likeesIds = await userRepo.GetLikeesIds(requestingUserId);
-				users = users.Where(u => likeesIds.Contains(u.UserId));
+				users = users.Where(u => likeesIds.Contains(u.Id));
 			}
 			if (paginationParams.Likers)
 			{
 				var likersIds = await userRepo.GetLikersIds(requestingUserId);
-				users = users.Where(u => likersIds.Contains(u.UserId));
+				users = users.Where(u => likersIds.Contains(u.Id));
 			}
 
 			// Если пользователь не указал пол, то будет показываться противоположный

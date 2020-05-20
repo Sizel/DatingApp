@@ -1,3 +1,4 @@
+import { AuthorizationGuard } from './guards/authorization.guard';
 import { MessagesResolver } from './resolvers/messages.resolver';
 import { MemberListResolver } from './resolvers/member-list.resolver';
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
@@ -14,6 +15,7 @@ import { MemberDetailedComponent } from './components/members/member-detailed/me
 import { MemberEditResolver } from './resolvers/member-edit.resolver';
 import { UnsavedChangesEditGuard } from './guards/unsaved-changes-edit.guard';
 import { UserLikesResolver } from './resolvers/likes.resolver';
+import { AdminComponent } from './components/admin/admin.component';
 
 export const appRoutes: Routes = [
   {
@@ -25,6 +27,12 @@ export const appRoutes: Routes = [
     path: '',
     canActivate: [AuthGuard],
     children: [
+      {
+        path: 'admin',
+        component: AdminComponent,
+        canActivate: [AuthorizationGuard],
+        data: { roles: ['Admin', 'Moderator']}
+      },
       {
         path: '',
         redirectTo: 'members',

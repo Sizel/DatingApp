@@ -16,8 +16,8 @@ export class MessageService {
 
   constructor(private http: HttpClient) {}
 
-  sendMessage(message: MessageToSend, userId: number) {
-    return this.http.post(this.baseUrl + 'users/' + userId + '/messages', message);
+  sendMessage(message: MessageToSend, id: number) {
+    return this.http.post(this.baseUrl + 'users/' + id + '/messages', message);
   }
 
   getConversation(requestingUserId: number, requestedUserId: number) {
@@ -26,7 +26,7 @@ export class MessageService {
     );
   }
   getMessages(
-    userId: number,
+    id: number,
     messageParams: MessagesPaginationParams
   ): Observable<PaginationResult<Message[]>> {
     let params = new HttpParams();
@@ -46,7 +46,7 @@ export class MessageService {
     console.log('message request params: ', params);
 
     return this.http
-      .get<Message[]>(this.baseUrl + 'users/' + userId + '/messages/', {
+      .get<Message[]>(this.baseUrl + 'users/' + id + '/messages/', {
         observe: 'response',
         params,
       })

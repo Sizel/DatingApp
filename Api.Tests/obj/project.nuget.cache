@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QVb3Tp0TYXiMdRRNPFkwawRbhf+GL81mw6wpGAVvEUeS6RmYuaHEkLBP7FJJ/CYJ3lTduVgzQzQ+3mE+3iKPuw==",
+  "dgSpecHash": "go9BZSzJjYxHmg7mHDKFsRT72hNQ28AlrHN4mcsXna8VfPgEEKXaXdlF2dAsfKLpA/twx9rgWtEmr5qN3LBtqA==",
   "success": true,
   "projectFilePath": "G:\\prog\\projects\\.NET_Angular_App\\DatingApp\\DatingApp\\Api.Tests\\Api.Tests.csproj",
   "expectedPackageFiles": [
@@ -11,7 +11,10 @@
     "C:\\Users\\MAX\\.nuget\\packages\\castle.core\\4.4.0\\castle.core.4.4.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\coverlet.collector\\1.2.0\\coverlet.collector.1.2.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\3.0.3\\microsoft.aspnetcore.authentication.jwtbearer.3.0.3.nupkg.sha512",
+    "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\3.0.0\\microsoft.aspnetcore.cryptography.internal.3.0.0.nupkg.sha512",
+    "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\3.0.0\\microsoft.aspnetcore.cryptography.keyderivation.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.html.abstractions\\2.2.0\\microsoft.aspnetcore.html.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\3.0.0\\microsoft.aspnetcore.identity.entityframeworkcore.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\3.0.0\\microsoft.aspnetcore.jsonpatch.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\3.0.0\\microsoft.aspnetcore.mvc.newtonsoftjson.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.aspnetcore.razor\\2.2.0\\microsoft.aspnetcore.razor.2.2.0.nupkg.sha512",
@@ -42,6 +45,8 @@
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\3.0.0\\microsoft.extensions.dependencyinjection.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.0.0\\microsoft.extensions.dependencyinjection.abstractions.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.dependencymodel\\3.0.0\\microsoft.extensions.dependencymodel.3.0.0.nupkg.sha512",
+    "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.identity.core\\3.0.0\\microsoft.extensions.identity.core.3.0.0.nupkg.sha512",
+    "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.identity.stores\\3.0.0\\microsoft.extensions.identity.stores.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.logging\\3.0.0\\microsoft.extensions.logging.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\3.0.0\\microsoft.extensions.logging.abstractions.3.0.0.nupkg.sha512",
     "C:\\Users\\MAX\\.nuget\\packages\\microsoft.extensions.logging.debug\\3.0.0\\microsoft.extensions.logging.debug.3.0.0.nupkg.sha512",

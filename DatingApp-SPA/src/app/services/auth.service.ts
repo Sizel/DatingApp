@@ -39,4 +39,14 @@ export class AuthService {
   register(user: User) {
     return this.http.post(this.baseUrl + 'register', user);
   }
+
+  isAuthorized(allowedRoles: Array<string>): boolean {
+    const userRoles = this.decodedToken.role as Array<string>;
+    for (const role of allowedRoles) {
+      if (userRoles.includes(role)) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

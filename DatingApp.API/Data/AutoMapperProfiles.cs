@@ -3,8 +3,11 @@ using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
 using DatingApp.Data.DTOs.Messages;
+using DatingApp.Data.DTOs.Users;
 using DatingApp.Data.Models;
+using DatingApp.Data.Models.Identity;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DatingApp.Data
@@ -36,8 +39,6 @@ namespace DatingApp.Data
 					options => options.MapFrom(descrDto => descrDto.Interests));
 
 			CreateMap<UserForRegisterDTO, User>()
-				.ForMember(u => u.Password,
-					options => options.Ignore())
 				.ForMember(u => u.Created,
 					options => options.MapFrom(userForRegisterdto => DateTime.Now))
 				.ForMember(u => u.LastActive,
@@ -52,6 +53,10 @@ namespace DatingApp.Data
 					options => options.MapFrom(m => m.Recipient.Photos.FirstOrDefault(p => p.IsMain).Url))
 				.ForMember(mDto => mDto.SenderPhotoUrl,
 					options => options.MapFrom(m => m.Sender.Photos.FirstOrDefault(p => p.IsMain).Url));
+
+			CreateMap<User, UserWithRolesDTO>()
+				.ForMember(urDto => urDto.Roles,
+					options => options.ConvertUsing<UserRolesConverter, ICollection<UserRole>>(u => u.UserRoles));
 		}
 	}
 }

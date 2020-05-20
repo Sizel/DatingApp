@@ -17,7 +17,6 @@ using Microsoft.EntityFrameworkCore;
 namespace DatingApp.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize]
     [Route("api/users/{requestingUserId}/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
@@ -109,7 +108,7 @@ namespace DatingApp.Controllers
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var sender = await usersRepo.GetUserWithPhotos(idFromToken);
 
-            if (sender.UserId != requestingUserId)
+            if (sender.Id != requestingUserId)
             {
                 return Unauthorized();
             }

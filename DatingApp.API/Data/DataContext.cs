@@ -1,19 +1,32 @@
 using DatingApp.API.Data.Models;
 using DatingApp.Data.Models;
+using DatingApp.Data.Models.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.API.Data
 {
-    public class DataContext : DbContext
+    public class DataContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                        .HasOne<Password>(u => u.Password)
-                        .WithOne(p => p.User)
-                        .HasForeignKey<Password>(p => p.UserId);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<UserRole>()
+                        .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            modelBuilder.Entity<UserRole>()
+                        .HasOne<Role>(ur => ur.Role)
+                        .WithMany(r => r.UserRoles)
+                        .HasForeignKey(ur => ur.RoleId);
+
+            modelBuilder.Entity<UserRole>()
+                        .HasOne<User>(ur => ur.User)
+                        .WithMany(u => u.UserRoles)
+                        .HasForeignKey(ur => ur.UserId);
 
             modelBuilder.Entity<User>()
                         .HasMany<Photo>(u => u.Photos)
@@ -50,11 +63,8 @@ namespace DatingApp.API.Data
             modelBuilder.Entity<Like>()
                         .HasKey(l => new { l.LikerId, l.LikeeId });
         }
-
-        public DbSet<User> Users { get; set; }
         public DbSet<UserDescription> UserDescriptions { get; set; }
         public DbSet<Photo> Photos { get; set; }
-        public DbSet<Password> Passwords { get; set; }
         public DbSet<Like> Likes { get; set; }
         public DbSet<Message> Messages { get; set; }
     }

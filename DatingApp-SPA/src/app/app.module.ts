@@ -1,3 +1,4 @@
+import { AdminComponent } from './components/admin/admin.component';
 import { MemberConversationWindowComponent } from './components/members/member-detailed/member-conversation-window/member-conversation-window.component';
 import { MessagesResolver } from './resolvers/messages.resolver';
 import { appRoutes } from './routes';
@@ -52,7 +53,8 @@ export function tokenGetter() {
       MemberCardComponent,
       MemberDetailedComponent,
       MemberEditComponent,
-      MemberConversationWindowComponent
+      MemberConversationWindowComponent,
+      AdminComponent,
    ],
    imports: [
       BrowserModule,

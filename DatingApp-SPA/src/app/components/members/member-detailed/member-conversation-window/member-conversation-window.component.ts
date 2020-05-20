@@ -28,7 +28,7 @@ export class MemberConversationWindowComponent implements OnInit {
   }
 
   loadMessages() {
-    this.messagesService.getConversation(this.auth.decodedToken.nameid, this.user.userId).subscribe(messages => {
+    this.messagesService.getConversation(this.auth.decodedToken.nameid, this.user.id).subscribe(messages => {
       this.messages = messages;
     }, error => {
       this.alertify.error(error);
@@ -36,7 +36,7 @@ export class MemberConversationWindowComponent implements OnInit {
   }
 
   sendMessage() {
-    this.messageToSend.recipientId = this.user.userId;
+    this.messageToSend.recipientId = this.user.id;
     this.messagesService.sendMessage(this.messageToSend, this.auth.decodedToken.nameid).subscribe((message: Message) => {
       console.log(message);
       this.messages.unshift(message);

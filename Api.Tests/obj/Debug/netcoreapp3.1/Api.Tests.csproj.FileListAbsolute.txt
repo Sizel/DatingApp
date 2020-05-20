@@ -360,3 +360,4 @@ G:\prog\projects\.NET_Angular_App\DatingApp\DatingApp\Api.Tests\obj\Debug\netcor
 G:\prog\projects\.NET_Angular_App\DatingApp\DatingApp\Api.Tests\obj\Debug\netcoreapp3.1\Api.Tests.dll
 G:\prog\projects\.NET_Angular_App\DatingApp\DatingApp\Api.Tests\obj\Debug\netcoreapp3.1\Api.Tests.pdb
 G:\prog\projects\.NET_Angular_App\DatingApp\DatingApp\Api.Tests\obj\Debug\netcoreapp3.1\Api.Tests.genruntimeconfig.cache
+G:\prog\projects\.NET_Angular_App\DatingApp\DatingApp\Api.Tests\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll

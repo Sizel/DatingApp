@@ -6,7 +6,7 @@
 
     <ul class="chat">
       <li *ngFor="let message of messages">
-        <div *ngIf="message.senderId == user.userId">
+        <div *ngIf="message.senderId == user.id">
           <span class="chat-img float-left">
             <img
               src="{{ message.senderPhotoUrl }}"
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div *ngIf="message.senderId != user.userId">
+        <div *ngIf="message.senderId != user.id">
           <span class="chat-img float-right">
             <img
               src="{{ message.senderPhotoUrl }}"
