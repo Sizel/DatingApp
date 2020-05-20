@@ -73,5 +73,21 @@ namespace DatingApp.Controllers
         {
             return Ok("Admin or moderators can see this");
         }
+
+        [HttpDelete("deleteUser/{id}")]
+        [Authorize(Policy = "RequireAdminRole")]
+        public async Task<IActionResult> DeleteUser(int id)
+        {
+            var userToDelete = await userManager.FindByIdAsync(id.ToString());
+            var result = await userManager.DeleteAsync(userToDelete);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest(result.Errors);
+            }
+        }
     }
 }

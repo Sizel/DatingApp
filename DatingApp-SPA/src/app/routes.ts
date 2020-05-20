@@ -31,7 +31,7 @@ export const appRoutes: Routes = [
         path: 'admin',
         component: AdminComponent,
         canActivate: [AuthorizationGuard],
-        data: { roles: ['Admin', 'Moderator']}
+        data: { roles: ['Admin']}
       },
       {
         path: '',

@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h4 class="modal-title">Edit roles for {{ username }}</h4>
+  <button
+    class="close"
+    type="button"
+    aria-label="Close"
+    (click)="activeModal.dismiss('Cross click')"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form id="rolesForm">
+    <div class="form-check" *ngFor="let role of availableRoles">
+      <input id="{{role}}" name="{{role}}" (click)="changeRole(role)" value="{{role}}" type="checkbox" class="form-check-input" [checked]="roles.includes(role)">
+      <label for="{{role}}">{{ role }}</label>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button
+  type="button"
+  class="btn btn-success"
+  (click)="activeModal.close(roles)"
+>
+  Save
+</button>
+</div>

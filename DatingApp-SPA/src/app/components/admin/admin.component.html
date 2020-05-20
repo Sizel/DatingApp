@@ -1,3 +1,15 @@
-<p>
-  admin works!
-</p>
+<div class="container mt-5">
+  <h2>Admin panel</h2>
+  <div class="tab-panel">
+    <ul ngbNav #nav="ngbNav" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>Role management</a>
+        <ng-template ngbNavContent>
+          <app-role-management></app-role-management>
+        </ng-template>
+      </li>
+    </ul>
+    
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>

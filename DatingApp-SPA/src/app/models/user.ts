@@ -11,6 +11,7 @@ export interface User {
   mainPhotoUrl: string;
   city: string;
   country: string;
+  roles: string[];
   userDescription?: UserDescription;
   photos?: Photo[];
 }

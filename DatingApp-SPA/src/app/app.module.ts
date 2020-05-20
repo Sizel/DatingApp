@@ -1,3 +1,5 @@
+import { RoleManagementModalComponent } from './components/admin/role-management/role-management-modal/role-management-modal.component';
+import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { MemberConversationWindowComponent } from './components/members/member-detailed/member-conversation-window/member-conversation-window.component';
 import { MessagesResolver } from './resolvers/messages.resolver';
@@ -34,6 +36,8 @@ import { MemberDetailedComponent } from './components/members/member-detailed/me
 import { MemberEditComponent } from './components/members/member-edit/member-edit.component';
 import { MemberListResolver } from './resolvers/member-list.resolver';
 import { UserLikesResolver } from './resolvers/likes.resolver';
+import { IsAuthorizedDirective } from './directives/is-authorized.directive';
+import { AdminService } from './services/admin.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -55,6 +59,9 @@ export function tokenGetter() {
       MemberEditComponent,
       MemberConversationWindowComponent,
       AdminComponent,
+      RoleManagementComponent,
+      RoleManagementModalComponent,
+      IsAuthorizedDirective,
    ],
    imports: [
       BrowserModule,
@@ -78,6 +85,7 @@ export function tokenGetter() {
       AuthService,
       AlertService,
       UserService,
+      AdminService,
       ErrorInterceptorProvider,
       MemberDetailResolver,
       MemberEditResolver,
