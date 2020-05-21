@@ -14,6 +14,7 @@ import { FileUploader } from 'ng2-file-upload';
 })
 export class MemberEditPhotosComponent implements OnInit {
   @Input() photos: Photo[];
+  @Input() userId: number;
   uploader: FileUploader;
   hasBaseDropZoneOver = false;
   baseUrl = environment.apiUrl;
@@ -76,7 +77,7 @@ export class MemberEditPhotosComponent implements OnInit {
   deletePhoto(photoId: number) {
     this.alertify.confirm('Are you sure you want to delete this photo?', () => {
       this.photoService
-        .deletePhoto(this.auth.decodedToken.nameid, photoId)
+        .deletePhoto(this.userId, photoId)
         .subscribe(
           () => {
             this.photos.splice(

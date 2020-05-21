@@ -35,7 +35,7 @@
           <li [ngbNavItem]="1">
             <a ngbNavLink>Edit profile</a>
             <ng-template ngbNavContent>
-              <form #editForm="ngForm" (ngSubmit)="updateUser(editForm)">
+              <form #editForm="ngForm" (ngSubmit)="updateUser()">
                 <h4>About me</h4>
                 <textarea
                   class="form-control"
@@ -80,7 +80,7 @@
           <li [ngbNavItem]="2">
             <a ngbNavLink>Edit photos</a>
             <ng-template ngbNavContent>
-              <app-member-edit-photos (mainPhotoChange)="onMainPhotoChange($event)"[photos]="userForEdit.photos"></app-member-edit-photos>
+              <app-member-edit-photos (mainPhotoChange)="onMainPhotoChange($event)" [userId]="userForEdit.id" [photos]="userForEdit.photos"></app-member-edit-photos>
             </ng-template>
           </li>
         </ul>

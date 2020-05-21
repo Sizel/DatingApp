@@ -38,8 +38,7 @@ export class MemberEditComponent implements OnInit {
     }
   }
 
-  updateUser(form) {
-    debugger;
+  updateUser() {
     this.userService
       .updateUser(this.userForEdit, this.userForEdit.id)
       .subscribe(() => {

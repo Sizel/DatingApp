@@ -158,8 +158,10 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> DeletePhoto(int id, int photoId)
         {
             var idFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var isModerator = User.IsInRole("Moderator");
+            var isAdmin = User.IsInRole("Admin");
 
-            if (idFromToken != id)
+            if (idFromToken != id && !isAdmin && !isModerator)
             {
                 return Unauthorized();
             }

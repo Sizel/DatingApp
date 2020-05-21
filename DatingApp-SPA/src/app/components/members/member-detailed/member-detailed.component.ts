@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/services/auth.service';
 import { Photo } from './../../../models/photo';
 import { ActivatedRoute } from '@angular/router';
 import { AlertService } from './../../../services/alert.service';
@@ -18,7 +19,7 @@ export class MemberDetailedComponent implements OnInit {
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, public auth: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
