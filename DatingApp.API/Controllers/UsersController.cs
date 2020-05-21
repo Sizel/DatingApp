@@ -62,8 +62,10 @@ namespace DatingApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(int id, UserForUpdateDTO userForUpdateDto)
         {
-            var idFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            if (idFromToken != id)
+            var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var isModerator = User.IsInRole("Moderator");
+            var isAdmin = User.IsInRole("Admin");
+            if (idFromToken != id && !isAdmin && !isModerator)
             {
                 return Unauthorized();
             }
