@@ -37,7 +37,7 @@
           </span>
           <div class="chat-body">
             <div class="header">
-              <small [ngClass]="['my-message', message.senderId == user.id]" class="text-muted">
+              <small class="text-muted">
                 <span class="fas fa-clock">{{
                   message.dateSent | timeago: false
                 }}</span>
@@ -52,7 +52,7 @@
                 message.senderUsername
               }}</strong>
             </div>
-            <p [ngClass]="['my-message', message.senderId == user.id]">{{ message.content }}</p>
+            <p >{{ message.content }}</p>
           </div>
         </div>
       </li>

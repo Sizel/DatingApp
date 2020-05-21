@@ -1,3 +1,4 @@
+import { PhotoService } from './services/photo.service';
 import { RoleManagementModalComponent } from './components/admin/role-management/role-management-modal/role-management-modal.component';
 import { RoleManagementComponent } from './components/admin/role-management/role-management.component';
 import { AdminComponent } from './components/admin/admin.component';
@@ -14,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { JwtModule } from '@auth0/angular-jwt';
 import { NgxGalleryModule } from 'ngx-gallery-9';
 import { TimeagoModule } from 'ngx-timeago';
+import { FileUploadModule } from 'ng2-file-upload';
 
 import { AuthService } from './services/auth.service';
 import { AlertService } from './services/alert.service';
@@ -38,6 +40,7 @@ import { MemberListResolver } from './resolvers/member-list.resolver';
 import { UserLikesResolver } from './resolvers/likes.resolver';
 import { IsAuthorizedDirective } from './directives/is-authorized.directive';
 import { AdminService } from './services/admin.service';
+import { MemberEditPhotosComponent } from './components/members/member-edit/member-edit-photos/member-edit-photos.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -51,6 +54,7 @@ export function tokenGetter() {
       HomeComponent,
       RegisterFormComponent,
       MembersComponent,
+      MemberEditPhotosComponent,
       LikesComponent,
       MessagesComponent,
       NoSuchPageComponent,
@@ -69,6 +73,7 @@ export function tokenGetter() {
       FormsModule,
       HttpClientModule,
       NgxGalleryModule,
+      FileUploadModule,
       NgbModule,
       ReactiveFormsModule,
       TimeagoModule.forRoot(),
@@ -86,6 +91,7 @@ export function tokenGetter() {
       AlertService,
       UserService,
       AdminService,
+      PhotoService,
       ErrorInterceptorProvider,
       MemberDetailResolver,
       MemberEditResolver,

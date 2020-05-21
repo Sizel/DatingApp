@@ -79,7 +79,9 @@
           </li>
           <li [ngbNavItem]="2">
             <a ngbNavLink>Edit photos</a>
-            <ng-template ngbNavContent> </ng-template>
+            <ng-template ngbNavContent>
+              <app-member-edit-photos (mainPhotoChange)="onMainPhotoChange($event)"[photos]="userForEdit.photos"></app-member-edit-photos>
+            </ng-template>
           </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>

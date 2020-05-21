@@ -56,7 +56,6 @@ export class MemberDetailedComponent implements OnInit {
         small: photo.url,
         medium: photo.url,
         big: photo.url,
-        description: photo.description
       });
     }
 

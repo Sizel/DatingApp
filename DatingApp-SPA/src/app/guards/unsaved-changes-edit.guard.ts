@@ -12,7 +12,7 @@ export class UnsavedChangesEditGuard implements CanDeactivate<MemberEditComponen
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (component.editForm.dirty) {
+    if (component.editForm?.dirty) {
       return confirm('You have some unsaved changes. Are you sure you want to unsave them?');
     }
 

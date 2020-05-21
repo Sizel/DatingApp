@@ -52,6 +52,12 @@ export class MemberEditComponent implements OnInit {
 
         this.editForm.controls.description.setValue(userDescription);
         this.editForm.controls.interests.setValue(interests);
+      }, () => {
+        this.alertify.error('Failed to save changes');
       });
+  }
+
+  onMainPhotoChange(newMainUrl: string) {
+    this.userForEdit.mainPhotoUrl = newMainUrl;
   }
 }
