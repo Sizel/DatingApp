@@ -3,6 +3,7 @@ using DatingApp.API.Data.DTOs;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
 using DatingApp.Data.DTOs.Messages;
+using DatingApp.Data.DTOs.Photos;
 using DatingApp.Data.DTOs.Users;
 using DatingApp.Data.Models;
 using DatingApp.Data.Models.Identity;
@@ -57,6 +58,8 @@ namespace DatingApp.Data
 			CreateMap<User, UserWithRolesDTO>()
 				.ForMember(urDto => urDto.Roles,
 					options => options.ConvertUsing<UserRolesConverter, ICollection<UserRole>>(u => u.UserRoles));
+
+			CreateMap<Photo, PhotoToReturnDTO>();
 		}
 	}
 }

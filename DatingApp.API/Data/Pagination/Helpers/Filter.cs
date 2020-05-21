@@ -51,7 +51,7 @@ namespace DatingApp.Data.Pagination
 			
 		}
 
-		public async static Task<IQueryable<Message>> FilterMessages(IQueryable<Message> messages, int requestingUserId, MessagePaginationParams messageParams)
+		public static IQueryable<Message> FilterMessages(IQueryable<Message> messages, int requestingUserId, MessagePaginationParams messageParams)
 		{
 			switch (messageParams.MessageType)
 			{

@@ -8,6 +8,7 @@ using DatingApp.Data;
 using DatingApp.Data.Models;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
+using DatingApp.Misc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -59,6 +60,7 @@ namespace DatingApp.API
 			.AddNewtonsoftJson( o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddCors();
+			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 			services.AddAutoMapper(typeof(IUserRepository).Assembly);
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IUserRepository, UsersRepository>();

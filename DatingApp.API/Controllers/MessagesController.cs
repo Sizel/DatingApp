@@ -89,7 +89,7 @@ namespace DatingApp.Controllers
 
             var messages = messagesRepo.GetMessagesForUser();
 
-            var filteredMessages = await Filter.FilterMessages(messages, idFromToken, messageParams);
+            var filteredMessages = Filter.FilterMessages(messages, idFromToken, messageParams);
 
             var filteredAndOrderedMessages = Order.OrderMessages(filteredMessages, messageParams);
 
