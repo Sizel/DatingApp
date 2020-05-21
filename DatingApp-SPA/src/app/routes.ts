@@ -53,7 +53,7 @@ export const appRoutes: Routes = [
         }
       },
       {
-        path: 'member/edit',
+        path: 'member/edit/:id',
         component: MemberEditComponent,
         canDeactivate: [UnsavedChangesEditGuard],
         resolve: {

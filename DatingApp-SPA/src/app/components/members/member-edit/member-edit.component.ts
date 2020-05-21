@@ -38,9 +38,10 @@ export class MemberEditComponent implements OnInit {
     }
   }
 
-  updateUser() {
+  updateUser(form) {
+    debugger;
     this.userService
-      .updateUser(this.userForEdit, this.authService.decodedToken.nameid)
+      .updateUser(this.userForEdit, this.userForEdit.id)
       .subscribe(() => {
         this.alertify.success('Changes saved!');
         // Не знаю почему, но после сброса формы то что было в полях описания и интересов удаляется

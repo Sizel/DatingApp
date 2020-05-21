@@ -34,6 +34,11 @@
               <button class="btn btn-success" (click)="nav.select(3)">Message</button>
             </div>
           </div>
+          <div>
+            <div class="btn-group d-flex mt-2">
+              <button [routerLink]="['/member/edit', detailedUser.id]" class="btn btn-secondary">Edit profile</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

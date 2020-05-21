@@ -35,14 +35,14 @@
           <li [ngbNavItem]="1">
             <a ngbNavLink>Edit profile</a>
             <ng-template ngbNavContent>
-              <form #editForm="ngForm" (ngSubmit)="updateUser()">
+              <form #editForm="ngForm" (ngSubmit)="updateUser(editForm)">
                 <h4>About me</h4>
                 <textarea
                   class="form-control"
                   name="description"
                   cols="30"
                   rows="6"
-                  [ngModel]="userForEdit.userDescription?.description"
+                  [ngModel]="userForEdit.userDescription.description"
                 ></textarea>
                 <h4>My interests</h4>
                 <textarea
@@ -71,7 +71,7 @@
                     [(ngModel)]="userForEdit.country"
                   />
                 </div>
-                <button *ngIf="!editForm.pristine" class="btn btn-success mt-3">
+                <button type="submit" *ngIf="!editForm.pristine" class="btn btn-success mt-3">
                   Save changes
                 </button>
               </form>
