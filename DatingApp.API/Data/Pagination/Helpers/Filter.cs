@@ -18,6 +18,11 @@ namespace DatingApp.Data.Pagination
 			// Не показывать пользователю самого себя
 			users = users.Where(u => u.Id != requestingUserId);
 
+			if (paginationParams.UserName != null)
+			{
+				users = users.Where(u => u.NormalizedUserName.StartsWith(paginationParams.UserName.ToUpper()));
+			}
+
 			if (paginationParams.Likees)
 			{
 				var likeesIds = await userRepo.GetLikeesIds(requestingUserId);

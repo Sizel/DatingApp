@@ -26,7 +26,7 @@ export class MemberCardComponent implements OnInit {
       .subscribe(
         () => {
           this.alertify.success(
-            'You have sent a like to ' + this.user.username.substring(0, 1).toUpperCase() + this.user.username
+            'You have sent a like to ' + this.user.username
           );
         },
         (error) => {

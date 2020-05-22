@@ -8,6 +8,7 @@ namespace DatingApp.Data.Pagination
 	public class UserPaginationParams : PaginationParams
 	{
 		public string Gender { get; set; }
+		public string UserName { get; set; }
 		public int MinAge { get; set; } = 0;
 		public int MaxAge { get; set; } = 99;
 		public string OrderBy { get; set; } = "lastActive";

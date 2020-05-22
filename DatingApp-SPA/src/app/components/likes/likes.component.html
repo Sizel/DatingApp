@@ -22,6 +22,12 @@
     </div>
   </div>
   <div class="row">
+    <div class="form-group form-inline">
+      <label for="search">Search: </label>
+      <input id="search" [(ngModel)]="userPaginationParams.userName" type="text" class="form-control ml-4" style="width: 200px">
+    </div>
+  </div>
+  <div class="row">
     <form class="form-inline" novalidate>
       <div class="form-group">
         <label for="minAge">Age From</label>

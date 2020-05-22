@@ -25,6 +25,9 @@ export class UserService {
     params = params.append('pageSize', userPaginationParams.paginationInfo.pageSize.toString());
     params = params.append('pageNumber', userPaginationParams.paginationInfo.pageNumber.toString());
 
+    if (userPaginationParams.userName) {
+      params = params.append('userName', userPaginationParams.userName);
+    }
     if (userPaginationParams.gender) {
       params = params.append('gender', userPaginationParams.gender);
     }

@@ -14,7 +14,7 @@ import { UserPaginationParams } from 'src/app/models/pagination-user-params';
 export class LikesComponent implements OnInit {
   users: User[];
   genders = [{value: 'female', display: 'Females'}, {value: 'male', display: 'Males'}, {value: 'both', display: 'Both'}, ];
-  userPaginationParams: UserPaginationParams = { paginationInfo: null };
+  userPaginationParams: UserPaginationParams = { paginationInfo: null, likees: true };
 
   constructor(
     private userService: UserService,
