@@ -7,10 +7,12 @@
     <span style="margin-right: 5px">Order by: </span>
     <div class="float-right btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="userPaginationParams.orderBy">
       <label ngbButtonLabel class="btn-primary">
-        <input ngbButton type="radio" value="created" > Created
+        <input ngbButton type="radio" value="ageAsc" > Age
+        <i class="fas fa-arrow-up"></i>
       </label>
       <label ngbButtonLabel class="btn-success">
-        <input ngbButton type="radio" value="lastActive"> Last Active
+        <input ngbButton type="radio" value="ageDesc"> Age
+        <i class="fas fa-arrow-down"></i>
       </label>
     </div>
   </div>

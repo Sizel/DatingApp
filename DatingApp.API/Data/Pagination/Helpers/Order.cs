@@ -14,11 +14,11 @@ namespace DatingApp.Data.Pagination
 			IOrderedQueryable<User> orderedUsers;
 			switch (userPaginationParams.OrderBy)
 			{
-				case "lastActive":
-					orderedUsers = users.OrderByDescending(u => u.LastActive);
+				case "ageAsc":
+					orderedUsers = users.OrderByDescending(u => u.DateOfBirth);
 					break;
-				case "created":
-					orderedUsers = users.OrderByDescending(u => u.Created);
+				case "ageDesc":
+					orderedUsers = users.OrderBy(u => u.DateOfBirth);
 					break;
 				default:
 					orderedUsers = users.OrderByDescending(u => u.LastActive);

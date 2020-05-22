@@ -9,12 +9,20 @@ import { UserPaginationParams } from 'src/app/models/pagination-user-params';
 @Component({
   selector: 'app-likes',
   templateUrl: './likes.component.html',
-  styleUrls: ['./likes.component.css']
+  styleUrls: ['./likes.component.css'],
 })
 export class LikesComponent implements OnInit {
   users: User[];
-  genders = [{value: 'female', display: 'Females'}, {value: 'male', display: 'Males'}, {value: 'both', display: 'Both'}, ];
-  userPaginationParams: UserPaginationParams = { paginationInfo: null, likees: true };
+  genders = [
+    { value: 'female', display: 'Females' },
+    { value: 'male', display: 'Males' },
+    { value: 'both', display: 'Both' },
+  ];
+  userPaginationParams: UserPaginationParams = {
+    paginationInfo: null,
+    likees: true,
+    orderBy: 'ageAsc'
+  };
 
   constructor(
     private userService: UserService,
@@ -33,7 +41,7 @@ export class LikesComponent implements OnInit {
     this.userPaginationParams = {
       paginationInfo: this.userPaginationParams.paginationInfo,
       likees: this.userPaginationParams.likees,
-      likers: this.userPaginationParams.likers
+      likers: this.userPaginationParams.likers,
     };
     this.loadNextPage();
   }
@@ -42,8 +50,7 @@ export class LikesComponent implements OnInit {
     if (show === 'likers') {
       this.userPaginationParams.likers = true;
       this.userPaginationParams.likees = false;
-    }
-    else if (show === 'likees') {
+    } else if (show === 'likees') {
       this.userPaginationParams.likers = false;
       this.userPaginationParams.likees = true;
     }
@@ -51,16 +58,14 @@ export class LikesComponent implements OnInit {
   }
 
   loadNextPage() {
-    this.userService
-      .getUsers(this.userPaginationParams)
-      .subscribe(
-        (page) => {
-          this.users = page.result;
-          this.userPaginationParams.paginationInfo = page.paginationInfo;
-        },
-        (error) => {
-          this.alertify.error(error);
-        }
-      );
+    this.userService.getUsers(this.userPaginationParams).subscribe(
+      (page) => {
+        this.users = page.result;
+        this.userPaginationParams.paginationInfo = page.paginationInfo;
+      },
+      (error) => {
+        this.alertify.error(error);
+      }
+    );
   }
 }

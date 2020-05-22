@@ -19,6 +19,7 @@ export class UserLikesResolver implements Resolve<PaginationResult<User[]>> {
       pageNumber: this.pageNumber,
       pageSize: this.pageSize,
     },
+    orderBy: 'ageAsc',
     likees: this.likees,
   };
 
