@@ -1,5 +1,6 @@
 
 using System.Net;
+using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data;
 using DatingApp.API.Data.Models;
@@ -8,6 +9,7 @@ using DatingApp.Data;
 using DatingApp.Data.Models;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
+using DatingApp.Hubs;
 using DatingApp.Misc;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -60,6 +62,7 @@ namespace DatingApp.API
 			.AddNewtonsoftJson( o => o.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 			services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 			services.AddCors();
+			services.AddSignalR();
 			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 			services.AddAutoMapper(typeof(IUserRepository).Assembly);
 			services.AddScoped<ITokenService, TokenService>();
@@ -78,6 +81,19 @@ namespace DatingApp.API
 							(System.Text.Encoding.UTF8.GetBytes(Configuration.GetValue<string>("PrivateKey"))),
 						ValidateIssuer = false,
 						ValidateAudience = false
+					};
+					options.Events = new JwtBearerEvents
+					{
+						OnMessageReceived = context =>
+						{
+							var accessToken = context.Request.Query["access_token"];
+
+							if (!string.IsNullOrEmpty(accessToken))
+							{
+								context.Token = accessToken;
+							}
+							return Task.CompletedTask;
+						}
 					};
 				});
 
@@ -118,7 +134,7 @@ namespace DatingApp.API
 
 			app.UseRouting();
 
-			app.UseCors(policy => policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+			app.UseCors(policy => policy.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod().AllowCredentials());
 
 			app.UseAuthentication();
 
@@ -127,6 +143,7 @@ namespace DatingApp.API
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();
+				endpoints.MapHub<MessageHub>("/messagesHub");
 			});
 		}
 	}

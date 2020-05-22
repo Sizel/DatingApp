@@ -7,14 +7,20 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginationResult } from '../models/pagination';
 import { Observable } from 'rxjs';
 import { Message } from '../models/message';
+import * as SignalR from '@aspnet/signalr';
 
 @Injectable({
   providedIn: 'root',
 })
 export class MessageService {
   baseUrl = environment.apiUrl;
+  connection = new SignalR.HubConnectionBuilder()
+    .withUrl('http://localhost:5000/messagesHub', { accessTokenFactory: () => localStorage.getItem('token') })
+    .build();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.connection.start();
+  }
 
   sendMessage(message: MessageToSend, id: number) {
     return this.http.post(this.baseUrl + 'users/' + id + '/messages', message);
@@ -22,7 +28,11 @@ export class MessageService {
 
   getConversation(requestingUserId: number, requestedUserId: number) {
     return this.http.get<Message[]>(
-      this.baseUrl + 'users/' + requestingUserId + '/messages/conv/' + requestedUserId
+      this.baseUrl +
+        'users/' +
+        requestingUserId +
+        '/messages/conv/' +
+        requestedUserId
     );
   }
   getMessages(

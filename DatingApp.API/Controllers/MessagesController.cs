@@ -9,9 +9,11 @@ using DatingApp.Data.Models;
 using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
+using DatingApp.Hubs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Controllers
@@ -24,12 +26,14 @@ namespace DatingApp.Controllers
         private readonly IMessagesRepository messagesRepo;
         private readonly IUserRepository usersRepo;
         private readonly IMapper mapper;
+        private readonly IHubContext<MessageHub> hub;
 
-        public MessagesController(IMessagesRepository messagesRepo, IUserRepository usersRepo, IMapper mapper)
+        public MessagesController(IMessagesRepository messagesRepo, IUserRepository usersRepo, IMapper mapper, IHubContext<MessageHub> hub)
         {
             this.messagesRepo = messagesRepo;
             this.usersRepo = usersRepo;
             this.mapper = mapper;
+            this.hub = hub;
         }
 
         [HttpGet("{messageId}", Name ="GetMessage")]
@@ -127,6 +131,9 @@ namespace DatingApp.Controllers
             var messageToReturn = mapper.Map<MessageToReturnDto>(messageToAdd);
 
             await messagesRepo.SaveAll();
+
+            await hub.Clients.User(recipient.Id.ToString()).SendAsync("ReceiveMessage", messageToReturn);
+            await hub.Clients.User(recipient.Id.ToString()).SendAsync("NewMessageNotification");
 
             return CreatedAtRoute("GetMessage", new { requestingUserId = idFromToken, messageId = messageToAdd.MessageId }, messageToReturn);
         }
