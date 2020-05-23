@@ -22,8 +22,22 @@
     <table class="table table-hover" style="cursor: pointer;">
       <tr>
         <th style="width: 40%;">Message</th>
-        <th style="width: 20%;">From / To</th>
-        <th style="width: 20%;">Sent / Received</th>
+        <th style="width: 20%;">
+          {{
+            messagesPaginationParams.messageType == 'unread' ||
+            messagesPaginationParams.messageType == 'inbox'
+              ? 'From'
+              : 'To'
+          }}
+        </th>
+        <th style="width: 20%;">
+          {{
+            messagesPaginationParams.messageType == 'unread' ||
+            messagesPaginationParams.messageType == 'inbox'
+              ? 'Received'
+              : 'Sent'
+          }}
+        </th>
         <th style="width: 20%;"></th>
       </tr>
       <tr

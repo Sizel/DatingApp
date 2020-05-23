@@ -30,7 +30,8 @@
         <div class="card-footer">
           <div>
             <div class="btn-group d-flex">
-              <button class="btn btn-primary">Like</button>
+              <button *ngIf="!detailedUser.isLiked" class="btn btn-primary" (click)="sendLike()">Like</button>
+              <button *ngIf="detailedUser.isLiked" class="btn btn-primary" (click)="sendDislike()">Dislike</button>
               <button class="btn btn-success" (click)="nav.select(3)">Message</button>
             </div>
           </div>

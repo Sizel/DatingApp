@@ -1,8 +1,5 @@
 ﻿using DatingApp.API.Data;
 using DatingApp.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace DatingApp.Data.Repos
@@ -23,6 +20,12 @@ namespace DatingApp.Data.Repos
 		public async void AddLike(Like like)
 		{
 			context.Likes.Add(like);
+			await context.SaveChangesAsync();
+		}
+
+		public async void DeleteLike(Like like)
+		{
+			context.Likes.Remove(like);
 			await context.SaveChangesAsync();
 		}
 	}

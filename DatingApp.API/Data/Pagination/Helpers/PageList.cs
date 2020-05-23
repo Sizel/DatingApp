@@ -19,7 +19,7 @@ namespace DatingApp.Data.Pagination
 			this.PageNumber = pageNumber;
 			this.PageSize = pageSize;
 			this.TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
-			this.AddRange(items);
+			AddRange(items);
 		}
 
 		public static async Task<PageList<T>> GetPage(IQueryable<T> source, int pageNumber, int pageSize)

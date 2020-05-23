@@ -7,8 +7,11 @@
       <li class="list-inline-item">
         <button class="btn btn-primary" [routerLink]="['/members', user.id]"><i class="fa fa-user"></i></button>
       </li>
-      <li class="list-inline-item">
+      <li *ngIf="!user.isLiked" class="list-inline-item">
         <button class="btn btn-primary" (click)="sendLike()"><i class="fas fa-thumbs-up"></i></button>
+      </li>
+      <li *ngIf="user.isLiked" class="list-inline-item">
+        <button class="btn btn-primary" (click)="sendDislike()"><i class="fas fa-thumbs-down"></i></button>
       </li>
       <li class="list-inline-item">
         <button class="btn btn-primary" [routerLink]="['/members', user.id]" [queryParams]="{tab:3}"><i class="fa fa-envelope"></i></button>

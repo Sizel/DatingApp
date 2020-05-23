@@ -14,4 +14,5 @@ export interface User {
   roles: string[];
   userDescription?: UserDescription;
   photos?: Photo[];
+  isLiked?: boolean;
 }

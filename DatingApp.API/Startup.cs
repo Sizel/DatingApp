@@ -64,13 +64,16 @@ namespace DatingApp.API
 			services.AddCors();
 			services.AddSignalR();
 			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
 			services.AddAutoMapper(typeof(IUserRepository).Assembly);
+
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IUserRepository, UsersRepository>();
 			services.AddScoped<IPhotoRepository, PhotoRepository>();
 			services.AddScoped<ILikeRepository, LikeRepository>();
 			services.AddScoped<IMessagesRepository, MessageRepository>();
 			services.AddScoped<LogUserActivity>();
+
 			services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 				.AddJwtBearer(options =>
 				{

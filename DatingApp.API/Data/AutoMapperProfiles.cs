@@ -20,12 +20,16 @@ namespace DatingApp.Data
 			CreateMap<User, UserForListDTO>()
 				.ForMember(destDto => destDto.MainPhotoUrl, options =>
 					options.MapFrom(user => user.Photos.FirstOrDefault(p => p.IsMain).Url))
+				.ForMember(destDto => destDto.IsLiked, options =>
+					options.ConvertUsing<IsLikedConverter, ICollection<Like>>(u => u.Likers))
 				.ForMember(destDto => destDto.Age, options =>
 					options.MapFrom(user => DateTime.Now.Year - user.DateOfBirth.Year));
 
 			CreateMap<User, DetailedUserDTO>()
 				.ForMember(destDto => destDto.MainPhotoUrl,
 					options => options.MapFrom(user => user.Photos.FirstOrDefault(p => p.IsMain).Url))
+				.ForMember(destDto => destDto.IsLiked, options =>
+					options.ConvertUsing<IsLikedConverter, ICollection<Like>>(u => u.Likers))
 				.ForMember(destDto => destDto.Age, options =>
 					options.MapFrom(user => DateTime.Now.Year - user.DateOfBirth.Year));
 

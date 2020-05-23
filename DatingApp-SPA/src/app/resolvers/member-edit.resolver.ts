@@ -11,7 +11,6 @@ import { AuthService } from '../services/auth.service';
 export class MemberEditResolver implements Resolve<User> {
   constructor(
     private userService: UserService,
-    private auth: AuthService,
     private router: Router,
     private alertify: AlertService
   ) {}

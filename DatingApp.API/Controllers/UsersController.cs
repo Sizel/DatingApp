@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,8 +9,8 @@ using DatingApp.Data.Models;
 using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using DatingApp.Helpers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Controllers
 {
@@ -33,28 +34,28 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> GetUsersPage([FromQuery]UserPaginationParams userPaginationParams)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
             var users =  _userRepo.GetUsers();
-
             var filteredUsers = await Filter.FilterUsers(users, userPaginationParams, idFromToken, _userRepo);
-
             var filteredAndOrderedUsers = Order.OrderUsers(filteredUsers, userPaginationParams);
-
             var page = await PageList<User>.GetPage(filteredAndOrderedUsers, userPaginationParams.PageNumber, userPaginationParams.PageSize);
-
             Response.AddPaginationHeaders(page.TotalItems, page.PageSize, page.TotalPages, page.PageNumber);
-
-            var userForList = _mapper.Map<IEnumerable<UserForListDTO>>(page);
+            var userForList = _mapper.Map<IEnumerable<UserForListDTO>>(page, opt =>
+            {
+                opt.Items["idFromToken"] = idFromToken;
+            });
 
             return Ok(userForList);
         }
 
         [HttpGet("{id}", Name ="GetDetailedUser")]
-        public async Task<IActionResult> GetDetailedUser(int id)
+        public async Task<IActionResult>GetDetailedUser(int id)
         {
+            var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var user = await _userRepo.GetDetailedUser(id);
-
-            var detailedUser = _mapper.Map<DetailedUserDTO>(user);
+            var detailedUser = _mapper.Map<DetailedUserDTO>(user, opt =>
+            {
+                opt.Items["idFromToken"] = idFromToken;
+            });
 
             return Ok(detailedUser);
         }
@@ -65,15 +66,14 @@ namespace DatingApp.Controllers
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
             var isModerator = User.IsInRole("Moderator");
             var isAdmin = User.IsInRole("Admin");
+
             if (idFromToken != id && !isAdmin && !isModerator)
             {
                 return Unauthorized();
             }
 
             var userFromRepo = await _userRepo.GetUserWithDescr(id);
-
             _mapper.Map(userForUpdateDto, userFromRepo);
-
             await _userRepo.SaveAll();
 
             return NoContent();
@@ -106,6 +106,33 @@ namespace DatingApp.Controllers
                 LikeeId = recipientId,
                 LikerId = idFromToken
             });
+
+            return Ok();
+        }
+
+        [HttpDelete("{dislikerId}/like/{recipientId}")]
+        public async Task<IActionResult> DislikeUser(int dislikerId, int recipientId)
+        {
+            var idFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            if (dislikerId != idFromToken)
+            {
+                return Unauthorized();
+            }
+
+            var like = await _likeRepo.GetLike(idFromToken, recipientId);
+
+            if (like == null)
+            {
+                return BadRequest("You have already disliked this user");
+            }
+
+            if (await _userRepo.Get(recipientId) == null)
+            {
+                return BadRequest("No such user");
+            }
+
+            _likeRepo.DeleteLike(like);
 
             return Ok();
         }

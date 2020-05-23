@@ -1,5 +1,5 @@
 import { AlertService } from './../../../../services/alert.service';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class MemberCardComponent implements OnInit {
   @Input() user: User;
-
+  @Output() dislike = new EventEmitter();
   constructor(
     private userService: UserService,
     private auth: AuthService,
@@ -25,8 +25,26 @@ export class MemberCardComponent implements OnInit {
       .sendLike(this.auth.decodedToken.nameid, this.user.id)
       .subscribe(
         () => {
+          this.user.isLiked = true;
           this.alertify.success(
             'You have sent a like to ' + this.user.username
+          );
+        },
+        (error) => {
+          this.alertify.error(error);
+        }
+      );
+  }
+
+  sendDislike() {
+    this.userService
+      .sendDislike(this.auth.decodedToken.nameid, this.user.id)
+      .subscribe(
+        () => {
+          this.dislike.emit(this.user);
+          this.user.isLiked = false;
+          this.alertify.success(
+            'You have sent a dislike to ' + this.user.username
           );
         },
         (error) => {

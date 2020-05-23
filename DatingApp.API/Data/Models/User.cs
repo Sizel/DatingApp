@@ -14,12 +14,12 @@ namespace DatingApp.API.Data.Models
         public DateTime DateOfBirth { get; set; }
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
-        public UserDescription UserDescription { get; set; }
-        public ICollection<Photo> Photos { get; set; }
-        public ICollection<Like> Likees { get; set; }
-        public ICollection<Like> Likers { get; set; }
-        public ICollection <Message> MessagesSent { get; set; }
-        public ICollection<Message> MessagesRecieved { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
+        public virtual UserDescription UserDescription { get; set; }
+        public virtual ICollection<Photo> Photos { get; set; }
+        public virtual ICollection<Like> Likees { get; set; }
+        public virtual ICollection<Like> Likers { get; set; }
+        public virtual ICollection <Message> MessagesSent { get; set; }
+        public virtual ICollection<Message> MessagesRecieved { get; set; }
+        public virtual ICollection<UserRole> UserRoles { get; set; }
     }
 }

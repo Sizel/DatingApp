@@ -10,5 +10,6 @@ namespace DatingApp.Data.Repos
 	{
 		public Task<Like> GetLike(int userId, int recipientId);
 		public void AddLike(Like like);
+		public void DeleteLike(Like like);
 	}
 }

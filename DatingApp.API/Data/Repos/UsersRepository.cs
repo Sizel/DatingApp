@@ -1,11 +1,7 @@
 ﻿using DatingApp.API.Data;
 using DatingApp.API.Data.Models;
-using DatingApp.Data.Models;
-using DatingApp.Data.Pagination;
 using DatingApp.Data.Repos;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,6 +16,7 @@ namespace DatingApp.Data
 		{
 			var detailedUser = await Context.Users
 											.Include(u => u.Photos)
+											.Include(u => u.Likers)
 											.Include(u => u.UserDescription)
 											.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -36,7 +33,7 @@ namespace DatingApp.Data
 
 		public IQueryable<User> GetUsers()
 		{
-			var users = Context.Users.Include(u => u.Photos).AsQueryable();
+			var users = Context.Users.Include(u => u.Photos).Include(u => u.Likers).AsQueryable(); // ???
 
 			return users;
 		}

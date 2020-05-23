@@ -68,4 +68,9 @@ export class LikesComponent implements OnInit {
       }
     );
   }
+
+  onDislike(user: User) {
+    const index = this.users.indexOf(user);
+    this.users.splice(index, 1 );
+  }
 }

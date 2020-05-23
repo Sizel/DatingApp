@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using DatingApp.Data.Models.Identity;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DatingApp.Data.Models
 {
