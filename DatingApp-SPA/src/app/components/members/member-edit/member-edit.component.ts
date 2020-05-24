@@ -1,5 +1,3 @@
-import { UserDescription } from './../../../models/user-description';
-import { AuthService } from './../../../services/auth.service';
 import { UserService } from './../../../services/user.service';
 import { AlertService } from './../../../services/alert.service';
 import { ActivatedRoute } from '@angular/router';
@@ -19,7 +17,6 @@ export class MemberEditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private alertify: AlertService,
-    private authService: AuthService,
     private userService: UserService
   ) {}
 
@@ -27,6 +24,12 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe((data) => {
       if (data) {
         this.userForEdit = data.userForEdit;
+        if (this.userForEdit.userDescription == null) {
+          this.userForEdit.userDescription = {
+            description: '',
+            interests: ''
+          };
+        }
       }
     });
   }

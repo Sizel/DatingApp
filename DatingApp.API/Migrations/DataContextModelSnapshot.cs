@@ -362,13 +362,13 @@ namespace DatingApp.Migrations
                     b.HasOne("DatingApp.API.Data.Models.User", "Recipient")
                         .WithMany("MessagesRecieved")
                         .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DatingApp.API.Data.Models.User", "Sender")
                         .WithMany("MessagesSent")
                         .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

@@ -11,6 +11,6 @@ namespace DatingApp.Data.Repos
 	{
 		public Task<Message> GetMessage(int messageId);
 		public IQueryable<Message> GetConversation(int userId, int recipientId);
-		public IQueryable<Message> GetMessagesForUser();
+		public IQueryable<Message> GetMessages();
 	}
 }

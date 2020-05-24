@@ -52,13 +52,13 @@ namespace DatingApp.API.Data
                         .HasMany<Message>(u => u.MessagesRecieved)
                         .WithOne(m => m.Recipient)
                         .HasForeignKey(m => m.RecipientId)
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
                         .HasMany<Message>(u => u.MessagesSent)
                         .WithOne(m => m.Sender)
                         .HasForeignKey(m => m.SenderId)
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Like>()
                         .HasKey(l => new { l.LikerId, l.LikeeId });

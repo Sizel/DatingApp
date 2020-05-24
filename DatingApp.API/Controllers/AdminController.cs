@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data.Models;
 using DatingApp.Data.DTOs;
 using DatingApp.Data.DTOs.Users;
-using DatingApp.Data.Models;
 using DatingApp.Data.Repos;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace DatingApp.Controllers
@@ -65,13 +61,6 @@ namespace DatingApp.Controllers
             }
 
             return Ok(await userManager.GetRolesAsync(user));
-        }
-
-        [HttpGet("photosForModeration")]
-        [Authorize(Policy = "RequireAdminOrModeratorRole")]
-        public async Task<IActionResult> GetPhotosForModeration()
-        {
-            return Ok("Admin or moderators can see this");
         }
 
         [HttpDelete("deleteUser/{id}")]

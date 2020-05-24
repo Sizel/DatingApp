@@ -21,9 +21,10 @@ namespace DatingApp.Data.Repos
 										 .FirstOrDefaultAsync(m => m.MessageId == messageId);
 		}
 
-		public IQueryable<Message> GetMessagesForUser()
+		public IQueryable<Message> GetMessages()
 		{
-			return Context.Messages.Include(m => m.Sender)
+			return Context.Messages
+				.Include(m => m.Sender)
 				.ThenInclude(s => s.Photos)
 				.Include(m => m.Recipient)
 				.ThenInclude(r => r.Photos)

@@ -2,6 +2,7 @@ import { AlertService } from '../../../services/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-login-form',
@@ -11,7 +12,7 @@ import { Router } from '@angular/router';
 export class LoginFormComponent implements OnInit {
   loginModel: any = {};
 
-  constructor(private auth: AuthService, private alertify: AlertService, private router: Router) {}
+  constructor(private messageService: MessageService, private auth: AuthService, private alertify: AlertService, private router: Router) {}
 
   ngOnInit() {}
 

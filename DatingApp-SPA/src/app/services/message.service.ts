@@ -15,7 +15,9 @@ import * as SignalR from '@aspnet/signalr';
 export class MessageService {
   baseUrl = environment.apiUrl;
   connection = new SignalR.HubConnectionBuilder()
-    .withUrl('http://localhost:5000/messagesHub', { accessTokenFactory: () => localStorage.getItem('token') })
+    .withUrl('http://localhost:5000/messagesHub', {
+      accessTokenFactory: () => localStorage.getItem('token'),
+    })
     .build();
 
   constructor(private http: HttpClient) {

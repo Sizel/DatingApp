@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.API.Data.DTOs;
@@ -6,7 +5,6 @@ using DatingApp.API.Data.Models;
 using DatingApp.API.Services;
 using DatingApp.Data.DTOs;
 using DatingApp.Data.Models;
-using DatingApp.Data.Models.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

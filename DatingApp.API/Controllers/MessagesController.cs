@@ -88,7 +88,7 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            var messages = messagesRepo.GetMessagesForUser();
+            var messages = messagesRepo.GetMessages();
 
             var filteredMessages = Filter.FilterMessages(messages, idFromToken, messageParams);
 

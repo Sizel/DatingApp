@@ -11,9 +11,5 @@ namespace DatingApp.Hubs
 {
 	public class MessageHub : Hub
 	{
-		public Task SendMessageToUser(string userId, string message)
-		{
-			return Clients.User(userId).SendAsync("ReceiveMessage", message);
-		}
 	}
 }
