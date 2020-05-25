@@ -49,10 +49,10 @@ namespace DatingApp.Controllers
             }
 
             var messageToReturn = mapper.Map<MessageToReturnDto>(messageFromRepo);
+
             return Ok(messageToReturn);
         }
 
-        // bad naming
         [HttpGet("conv/{requestedUserId}")]
         public async Task<IActionResult> GetConversation(int requestingUserId, int requestedUserId)
         {
@@ -64,7 +64,6 @@ namespace DatingApp.Controllers
             }
 
             var conversation = await messagesRepo.GetConversation(requestingUserId, requestedUserId).ToListAsync();
-
             conversation.ForEach(m => {
                 if (!m.IsRead && m.SenderId == requestedUserId)
                 {
@@ -82,22 +81,16 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> GetMessagesPage(int requestingUserId, [FromQuery]MessagePaginationParams messageParams)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-
             if (idFromToken != requestingUserId)
             {
                 return Unauthorized();
             }
 
             var messages = messagesRepo.GetMessages();
-
             var filteredMessages = Filter.FilterMessages(messages, idFromToken, messageParams);
-
             var filteredAndOrderedMessages = Order.OrderMessages(filteredMessages, messageParams);
-
             var page = await PageList<Message>.GetPage(filteredAndOrderedMessages, messageParams.PageNumber, messageParams.PageSize);
-
             Response.AddPaginationHeaders(page.TotalItems, page.PageSize, page.TotalPages, page.PageNumber);
-
             var messagesToReturnDto = mapper.Map<IEnumerable<MessageToReturnDto>>(page);
 
             return Ok(messagesToReturnDto);
@@ -124,9 +117,7 @@ namespace DatingApp.Controllers
             }
 
             messagesRepo.Add(messageToAdd);
-
             var messageToReturn = mapper.Map<MessageToReturnDto>(messageToAdd);
-
             await messagesRepo.SaveAll();
 
             await hub.Clients.User(recipient.Id.ToString()).SendAsync("ReceiveMessage", messageToReturn);

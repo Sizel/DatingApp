@@ -56,28 +56,24 @@ namespace DatingApp.Controllers
         public async Task<IActionResult> SavePhoto(int id, [FromForm]PhotoForCreationDTO photoForCreationDto)
         {
             var idFromToken = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
             if (idFromToken != id)
             {
                 return Unauthorized();
             }
 
             var userFromRepo = await userRepo.GetUserWithPhotos(id);
-
             if (userFromRepo == null)
             {
                 BadRequest("No such user");
             }
 
             var file = photoForCreationDto.File;
-
             if (file.Length <= 0)
             {
                 return BadRequest("No file");
             }
 
             var uploadResult = new ImageUploadResult();
-
             using (var stream = file.OpenReadStream())
             {
                 var uploadParams = new ImageUploadParams()
@@ -107,7 +103,6 @@ namespace DatingApp.Controllers
 
             userFromRepo.Photos.Add(photoToSave);
             await userRepo.SaveAll();
-
             var photoToReturn = mapper.Map<PhotoToReturnDTO>(photoToSave);
 
             return CreatedAtRoute("GetPhoto", new { id, photoToSave.PhotoId }, photoToReturn);

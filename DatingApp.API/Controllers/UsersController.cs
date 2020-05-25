@@ -19,27 +19,27 @@ namespace DatingApp.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _userRepo;
-        private readonly ILikeRepository _likeRepo;
-        private readonly IMapper _mapper;
+        private readonly IUserRepository userRepo;
+        private readonly ILikeRepository likeRepo;
+        private readonly IMapper mapper;
 
         public UsersController(IUserRepository userRepo, ILikeRepository likeRepo, IMapper mapper)
         {
-            _userRepo = userRepo;
-            this._likeRepo = likeRepo;
-            this._mapper = mapper;
+            this.userRepo = userRepo;
+            this.likeRepo = likeRepo;
+            this.mapper = mapper;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetUsersPage([FromQuery]UserPaginationParams userPaginationParams)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var users =  _userRepo.GetUsers();
-            var filteredUsers = await Filter.FilterUsers(users, userPaginationParams, idFromToken, _userRepo);
+            var users = userRepo.GetUsers();
+            var filteredUsers = await Filter.FilterUsers(users, userPaginationParams, idFromToken, userRepo);
             var filteredAndOrderedUsers = Order.OrderUsers(filteredUsers, userPaginationParams);
             var page = await PageList<User>.GetPage(filteredAndOrderedUsers, userPaginationParams.PageNumber, userPaginationParams.PageSize);
             Response.AddPaginationHeaders(page.TotalItems, page.PageSize, page.TotalPages, page.PageNumber);
-            var userForList = _mapper.Map<IEnumerable<UserForListDTO>>(page, opt =>
+            var userForList = mapper.Map<IEnumerable<UserForListDTO>>(page, opt =>
             {
                 opt.Items["idFromToken"] = idFromToken;
             });
@@ -51,8 +51,8 @@ namespace DatingApp.Controllers
         public async Task<IActionResult>GetDetailedUser(int id)
         {
             var idFromToken = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            var user = await _userRepo.GetDetailedUser(id);
-            var detailedUser = _mapper.Map<DetailedUserDTO>(user, opt =>
+            var user = await userRepo.GetDetailedUser(id);
+            var detailedUser = mapper.Map<DetailedUserDTO>(user, opt =>
             {
                 opt.Items["idFromToken"] = idFromToken;
             });
@@ -72,9 +72,9 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            var userFromRepo = await _userRepo.GetUserWithDescr(id);
-            _mapper.Map(userForUpdateDto, userFromRepo);
-            await _userRepo.SaveAll();
+            var userFromRepo = await userRepo.GetUserWithDescr(id);
+            mapper.Map(userForUpdateDto, userFromRepo);
+            await userRepo.SaveAll();
 
             return NoContent();
         }
@@ -89,19 +89,19 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            var like = await _likeRepo.GetLike(idFromToken, recipientId);
+            var like = await likeRepo.GetLike(idFromToken, recipientId);
 
             if (like != null)
             {
                 return BadRequest("You have already liked this user");
             }
 
-            if (await _userRepo.Get(recipientId) == null)
+            if (await userRepo.Get(recipientId) == null)
             {
                 return BadRequest("No such user");
             }
 
-            _likeRepo.AddLike(new Like
+            likeRepo.AddLike(new Like
             {
                 LikeeId = recipientId,
                 LikerId = idFromToken
@@ -120,19 +120,19 @@ namespace DatingApp.Controllers
                 return Unauthorized();
             }
 
-            var like = await _likeRepo.GetLike(idFromToken, recipientId);
+            var like = await likeRepo.GetLike(idFromToken, recipientId);
 
             if (like == null)
             {
                 return BadRequest("You have already disliked this user");
             }
 
-            if (await _userRepo.Get(recipientId) == null)
+            if (await userRepo.Get(recipientId) == null)
             {
                 return BadRequest("No such user");
             }
 
-            _likeRepo.DeleteLike(like);
+            likeRepo.DeleteLike(like);
 
             return Ok();
         }

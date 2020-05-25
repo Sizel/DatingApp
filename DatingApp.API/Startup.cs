@@ -49,7 +49,6 @@ namespace DatingApp.API
 			builder.AddRoles<Role>();
 			builder.AddEntityFrameworkStores<DataContext>();
 			builder.AddSignInManager<SignInManager<User>>();
-
 			services.AddControllers(opt =>
 			{
 				var policy = new AuthorizationPolicyBuilder()
@@ -63,8 +62,7 @@ namespace DatingApp.API
 			services.AddCors();
 			services.AddSignalR();
 			services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-
-			services.AddAutoMapper(typeof(IUserRepository).Assembly);
+			services.AddAutoMapper(typeof(Startup));
 
 			services.AddScoped<ITokenService, TokenService>();
 			services.AddScoped<IUserRepository, UsersRepository>();
@@ -109,30 +107,21 @@ namespace DatingApp.API
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
+
+			app.UseExceptionHandler(builder =>
 			{
-				app.UseDeveloperExceptionPage();
-			}
-			else
-			{
-				app.UseExceptionHandler(builder =>
+				builder.Run(async context =>
 				{
-					builder.Run(async context =>
+					context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+					var exceptionHandlingFeature = context.Features.Get<IExceptionHandlerFeature>();
+
+					if (exceptionHandlingFeature != null)
 					{
-						context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-
-						var exceptionHandlingFeature = context.Features.Get<IExceptionHandlerFeature>();
-
-						if (exceptionHandlingFeature != null)
-						{
-							context.Response.AddApplicationError(exceptionHandlingFeature.Error.Message);
-							await context.Response.WriteAsync(exceptionHandlingFeature.Error.Message);
-						}
-					});
+						await context.Response.WriteAsync(exceptionHandlingFeature.Error.Message);
+					}
 				});
-			}
-
-			//app.UseHttpsRedirection();
+			});
 
 			app.UseRouting();
 

@@ -20,7 +20,6 @@ namespace DatingApp.API.Controllers
         private readonly IMapper mapper;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        private readonly RoleManager<Role> roleManager;
 
         public AuthController(ITokenService tokenService, IMapper mapper, UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<Role> roleManager)
         {
@@ -28,7 +27,6 @@ namespace DatingApp.API.Controllers
             this.mapper = mapper;
             this.signInManager = signInManager;
             this.userManager = userManager;
-            this.roleManager = roleManager;
         }
 
         [HttpPost("register")]
@@ -38,11 +36,10 @@ namespace DatingApp.API.Controllers
 
             var result = await userManager.CreateAsync(userForRegister, userForRegisterDto.Password);
             await userManager.AddToRoleAsync(userForRegister, "Member");
-            var detailerUserDto = mapper.Map<DetailedUserDTO>(userForRegister);
 
             if (result.Succeeded)
             {
-                return CreatedAtRoute("GetDetailedUser", new { controller = "Users", id = userForRegister.Id }, detailerUserDto);
+                return Ok();
             }
             else
             {

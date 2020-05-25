@@ -14,8 +14,8 @@ namespace DatingApp.Data.Pagination
 	{
 		public async static Task<IQueryable<User>> FilterUsers(IQueryable<User> users, UserPaginationParams paginationParams, int requestingUserId, IUserRepository userRepo)
 		{
-			var userWhoMakeRequest = await userRepo.Get(requestingUserId);
 			// Не показывать пользователю самого себя
+			var userWhoMakeRequest = await userRepo.Get(requestingUserId);
 			users = users.Where(u => u.Id != requestingUserId);
 
 			if (paginationParams.UserName != null)
